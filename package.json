@@ -1,0 +1,18 @@
+{
+  "name": "soretrak-website",
+  "version": "1.0.0",
+  "description": "SORETRAK - Company website",
+  "scripts": {
+    "install-all": "cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && node index.js",
+    "dev:server": "cd server && node index.js",
+    "dev:client": "cd client && npx vite",
+    "db:push": "cd server && npx prisma db push",
+    "db:generate": "cd server && npx prisma generate",
+    "seed": "cd server && node seed.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

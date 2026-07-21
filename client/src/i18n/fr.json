@@ -1,0 +1,270 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "activities": "Activités",
+    "subscriptions": "Abonnements",
+    "routes": "Lignes",
+    "news": "Actualités",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "admin": "Administration"
+  },
+  "home": {
+    "heroTitle": "Société Régionale de Transport de Kairouan",
+    "heroSubtitle": "Services de transport sûrs et fiables connectant Kairouan à toutes les régions de Tunisie. Voyages confortables à des prix accessibles à tous.",
+    "searchFrom": "Départ",
+    "searchTo": "Arrivée",
+    "searchDate": "Date",
+    "searchButton": "Rechercher un trajet",
+    "stats": {
+      "buses": "Bus",
+      "routes": "Lignes",
+      "passengers": "Passagers/jour",
+      "years": "Années d'expérience"
+    },
+    "servicesTitle": "Nos Services",
+    "servicesSubtitle": "Nous offrons une gamme variée de services de transport pour répondre à vos besoins",
+    "popularRoutesTitle": "Lignes Populaires",
+    "popularRoutesSubtitle": "Découvrez les destinations les plus prisées",
+    "newsTitle": "Dernières Actualités",
+    "newsSubtitle": "Suivez les dernières nouvelles et mises à jour de l'entreprise",
+    "whyTitle": "Pourquoi choisir SORETRAK ?",
+    "whySubtitle": "Nous nous engageons aux normes les plus élevées de qualité et de sécurité",
+    "ctaTitle": "Vous souhaitez vous abonner ?",
+    "ctaSubtitle": "Obtenez des tarifs préférentiels et des services exclusifs avec nos abonnements",
+    "ctaButton": "S'abonner maintenant",
+    "readMore": "Lire la suite",
+    "viewAll": "Voir tout",
+    "services": {
+      "student": {
+        "title": "Transport Scolaire",
+        "description": "Services de transport sûrs et fiables pour les étudiants vers et depuis les écoles et universités"
+      },
+      "passenger": {
+        "title": "Transport de Passagers",
+        "description": "Voyages confortables entre les villes tunisiennes avec la flotte la plus moderne"
+      },
+      "currency": {
+        "title": "Transport de Devises",
+        "description": "Services de transport sécurisé pour les devises et valeurs pour les institutions financières"
+      },
+      "rental": {
+        "title": "Location",
+        "description": "Location de bus avec chauffeurs expérimentés pour les voyages et événements"
+      }
+    },
+    "features": {
+      "reliability": {
+        "title": "Fiabilité",
+        "description": "Nous respectons les horaires et garantissons votre arrivée à l'heure prévue"
+      },
+      "comfort": {
+        "title": "Confort",
+        "description": "Bus équipés des dernières technologies de confort et de climatisation"
+      },
+      "coverage": {
+        "title": "Large Couverture",
+        "description": "Réseau de lignes couvrant toutes les régions de la Tunisie"
+      },
+      "safety": {
+        "title": "Sécurité",
+        "description": "Chauffeurs professionnels et bus soumis à un entretien régulier"
+      }
+    }
+  },
+  "about": {
+    "title": "À propos",
+    "heroSubtitle": "Découvrez notre histoire, notre vision et nos valeurs",
+    "whoWeAre": "Qui sommes-nous",
+    "whoWeAreText": "La Société Régionale de Transport de Kairouan (SORETRAK) est une entreprise leader dans le domaine du transport en commun en Tunisie. Fondée dans le but de fournir des services de transport sûrs et fiables aux citoyens de Kairouan et des régions environnantes, nous sommes fiers d'une expérience qui s'étend sur plusieurs décennies au service des transports publics.",
+    "history": "Notre Histoire",
+    "historyText": "L'entreprise a traversé plusieurs phases de développement depuis sa création, en commençant par une petite flotte de véhicules pour évoluer vers une flotte moderne de bus équipés selon les normes les plus élevées de qualité et de sécurité.",
+    "numbers": "L'entreprise en chiffres",
+    "mission": "Notre Mission",
+    "missionText": "Fournir des services de transport public de haute qualité, fiables et sûrs, tout en veillant à répondre aux besoins des citoyens et à offrir une expérience de voyage confortable à des prix abordables.",
+    "vision": "Notre Vision",
+    "visionText": "Devenir le premier choix pour le transport public dans la région de Kairouan et les régions voisines, grâce à une mise à jour continue et à des services répondant aux attentes des citoyens.",
+    "values": "Nos Valeurs",
+    "valuesText": "La sécurité d'abord, la qualité de service, la ponctualité, le respect des clients et la contribution au développement local."
+  },
+  "activities": {
+    "title": "Activités",
+    "heroSubtitle": "Des services variés pour répondre à tous vos besoins de transport",
+    "student": {
+      "title": "Transport Scolaire",
+      "description": "Nous fournissons des services de transport sûrs et fiables pour les étudiants vers et depuis les écoles et universités. Nos bus sont équipés des normes de sécurité les plus élevées, de climatisation centrale et de sièges confortables.",
+      "features": ["Chauffeurs formés pour interagir avec les enfants", "Climatisation centrale", "Sièges confortables", "Suivi GPS"]
+    },
+    "passenger": {
+      "title": "Transport de Passagers",
+      "description": "Des trajets réguliers entre Kairouan et les grandes villes tunisiennes. Nous offrons un service de transport confortable et sûr à des prix compétitifs avec un emploi du temps régulier.",
+      "features": ["Trajets quotidiens réguliers", "Prix compétitifs", "Bus modernes", "Service client exceptionnel"]
+    },
+    "currency": {
+      "title": "Transport de Devises",
+      "description": "Services de transport sécurisés pour les devises et valeurs pour les institutions financières, banques et entreprises. Nous respectons les normes de sécurité et de confidentialité les plus élevées.",
+      "features": ["Assurance complète", "Véhicules spécialement équipés", "Chauffeurs formés", "Confidentialité totale"]
+    },
+    "rental": {
+      "title": "Location",
+      "description": "Location de bus avec des chauffeurs expérimentés pour les voyages collectifs, événements et occasions spéciales. Nous proposons des bus de différentes capacités adaptés à vos besoins.",
+      "features": ["Bus de différentes capacités", "Chauffeurs professionnels", "Tarifs flexibles", "Flexibilité de planification"]
+    }
+  },
+  "subscriptions": {
+    "title": "Abonnements",
+    "heroSubtitle": "Choisissez l'abonnement qui vous convient et obtenez des tarifs préférentiels",
+    "school": {
+      "title": "Abonnement Scolaire",
+      "description": "Abonnement annuel pour les élèves avec tarifs réduits et services personnalisés.",
+      "price": "À partir de 200 DT/an"
+    },
+    "university": {
+      "title": "Abonnement Universitaire",
+      "description": "Abonnement spécifique pour les étudiants universitaires avec flexibilité d'utilisation.",
+      "price": "À partir de 300 DT/an"
+    },
+    "commercial": {
+      "title": "Abonnement Commercial",
+      "description": "Abonnement pour les entreprises et institutions avec services exclusifs et tarifs de groupe.",
+      "price": "Sur demande"
+    },
+    "currency": {
+      "title": "Abonnement Transport de Devises",
+      "description": "Abonnement spécifique pour les entreprises de transport de devises avec services de sécurité avancés.",
+      "price": "Sur demande"
+    },
+    "requirements": "Conditions",
+    "downloadForms": "Télécharger les Formulaires",
+    "applyNow": "Postuler maintenant"
+  },
+  "routes": {
+    "title": "Lignes",
+    "heroSubtitle": "Explorez nos lignes et trouvez votre trajet idéal",
+    "school": "Lignes Scolaires",
+    "commercial": "Lignes Commerciales",
+    "searchPlaceholder": "Rechercher une ligne...",
+    "departure": "Départ",
+    "arrival": "Arrivée",
+    "schedule": "Horaires",
+    "price": "Prix",
+    "selectCity": "Sélectionnez la ville",
+    "noRoutes": "Aucune ligne disponible pour le moment",
+    "scheduleInfo": "Informations sur les Horaires",
+    "scheduleInfoText": "Des trajets quotidiens sont disponibles sur toutes les lignes. Veuillez consulter l'emploi du temps pour des informations à jour."
+  },
+  "news": {
+    "title": "Actualités",
+    "heroSubtitle": "Suivez les dernières nouvelles et mises à jour de l'entreprise",
+    "readMore": "Lire la suite",
+    "noNews": "Aucune actualité disponible pour le moment",
+    "publishedAt": "Publié le",
+    "backToList": "Retour à la liste"
+  },
+  "faq": {
+    "title": "Questions Fréquentes",
+    "heroSubtitle": "Réponses aux questions les plus posées",
+    "searchPlaceholder": "Rechercher dans les questions...",
+    "noResults": "Aucun résultat trouvé",
+    "all": "Tout",
+    "general": "Général",
+    "tickets": "Billets",
+    "routes": "Lignes",
+    "subscriptions": "Abonnements",
+    "luggage": "Bagages"
+  },
+  "contact": {
+    "title": "Contact",
+    "heroSubtitle": "Nous sommes là pour vous aider. Contactez-nous par le moyen qui vous convient",
+    "form": {
+      "name": "Nom complet",
+      "email": "Email",
+      "phone": "Téléphone",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours...",
+      "success": "Votre message a été envoyé avec succès !",
+      "error": "Une erreur s'est produite lors de l'envoi. Veuillez réessayer."
+    },
+    "info": {
+      "phone": "Téléphone",
+      "email": "Email",
+      "address": "Adresse",
+      "hours": "Heures d'ouverture"
+    },
+    "address": "Kairouan, Tunisie",
+    "hours": "Lundi - Vendredi: 8h00 - 17h00",
+    "phone1": "+216 77 300 011",
+    "email1": "contact@soretrak.com.tn"
+  },
+  "footer": {
+    "description": "Société Régionale de Transport de Kairouan - Services de transport sûrs et fiables connectant Kairouan à toutes les régions de Tunisie.",
+    "quickLinks": "Liens Rapides",
+    "contactInfo": "Informations de Contact",
+    "socialMedia": "Suivez-nous",
+    "copyright": "© 2024 SORETRAK - Société Régionale de Transport de Kairouan. Tous droits réservés.",
+    "phone": "+216 77 300 011",
+    "email": "contact@soretrak.com.tn",
+    "address": "Kairouan, Tunisie",
+    "workingHours": "Lundi - Vendredi: 8h00 - 17h00"
+  },
+  "chatbot": {
+    "title": "Assistant SORETRAK",
+    "welcome": "Bonjour ! Je suis l'assistant virtuel SORETRAK. Comment puis-je vous aider aujourd'hui ?",
+    "placeholder": "Tapez votre message ici...",
+    "send": "Envoyer",
+    "typing": "En train d'écrire..."
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "noData": "Aucune donnée disponible",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "search": "Rechercher",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ?",
+    "success": "Succès",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "of": "sur",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "admin": {
+    "login": {
+      "title": "Connexion",
+      "email": "Email",
+      "password": "Mot de passe",
+      "button": "Se connecter",
+      "error": "Identifiants incorrects"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "welcome": "Bienvenue dans le tableau de bord",
+      "totalNews": "Total Actualités",
+      "totalRoutes": "Total Lignes",
+      "totalFAQs": "Total FAQ",
+      "totalMessages": "Total Messages",
+      "recentMessages": "Messages Récents",
+      "quickActions": "Actions Rapides"
+    },
+    "sidebar": {
+      "dashboard": "Tableau de bord",
+      "news": "Actualités",
+      "routes": "Lignes",
+      "faq": "FAQ",
+      "activities": "Activités",
+      "subscriptions": "Abonnements",
+      "messages": "Messages",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
+    }
+  }
+}

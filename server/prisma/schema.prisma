@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  titleAr     String
+  titleFr     String
+  contentAr   String
+  contentFr   String
+  image       String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Route {
+  id            Int      @id @default(autoincrement())
+  nameAr        String
+  nameFr        String
+  descriptionAr String?
+  descriptionFr String?
+  departure     String
+  arrival       String
+  departureTime String
+  arrivalTime   String
+  price         Float
+  type          String   @default("commercial")
+  days          String   @default("daily")
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model FAQ {
+  id         Int      @id @default(autoincrement())
+  questionAr String
+  questionFr String
+  answerAr   String
+  answerFr   String
+  category   String   @default("general")
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Activity {
+  id            Int      @id @default(autoincrement())
+  titleAr       String
+  titleFr       String
+  descriptionAr String
+  descriptionFr String
+  icon          String?
+  image         String?
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Subscription {
+  id              Int      @id @default(autoincrement())
+  titleAr         String
+  titleFr         String
+  descriptionAr   String
+  descriptionFr   String
+  price           Float?
+  type            String
+  requirementsAr  String?
+  requirementsFr  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  sessionId String
+  role      String
+  content   String
+  language  String   @default("ar")
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  valueAr   String?
+  valueFr   String?
+  updatedAt DateTime @updatedAt
+}
+
+model Subscriber {
+  id               Int      @id @default(autoincrement())
+  subscriberNumber String   @unique
+  cardNumber       String?
+  fingerprint      String?
+  password         String
+  name             String?
+  phone            String?
+  email            String?
+  active           Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
