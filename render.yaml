@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: soretrak-website
+    runtime: node
+    region: frankfurt
+    buildCommand: cd server && npm install && cd ../client && npm install && npm run build && cd ../server && npx prisma generate && npx prisma db push && node seed.js
+    startCommand: cd server && node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./dev.db
