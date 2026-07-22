@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Bus, Phone, Mail, MapPin, Clock } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa'
 
 export default function Footer() {
@@ -17,14 +17,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                <Bus className="w-6 h-6 text-white" />
-              </div>
+              <img src="/images/soretrak-logo.png" alt="SORETRAK" className="h-12 w-auto object-contain" />
               <div>
-                <span className="text-lg font-bold block leading-tight">SORETRAK</span>
+                <span className="text-lg font-extrabold block leading-tight text-white">SORETRAK</span>
                 <span className="text-[10px] text-gray-400 leading-tight">
                   {t('about.heroSubtitle').includes('histoire')
-                    ? 'Société Régionale de Transport'
+                    ? 'Société Régionale de Transport de Kairouan'
                     : 'الشركة الجهوية للنقل بالقيروان'}
                 </span>
               </div>

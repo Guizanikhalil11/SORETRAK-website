@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Menu, X, Bus } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { key: 'home', path: '/' },
@@ -46,16 +46,11 @@ export default function Navbar() {
       <nav className={`fixed top-1 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white border-b border-gray-100'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="flex items-center gap-2">
-                <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-8 h-6 object-cover rounded-sm shadow-sm" />
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-secondary group-hover:to-secondary-dark transition-all duration-300 shadow-md">
-                  <Bus className="w-6 h-6 text-white" />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold text-dark leading-tight tracking-wide">SORETRAK</span>
-                <span className="text-[10px] text-gray-500 leading-tight">{t('about.heroSubtitle').includes('histoire') ? 'Société Régionale de Transport' : 'الشركة الجهوية للنقل بالقيروان'}</span>
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <img src="/images/soretrak-logo.png" alt="SORETRAK" className="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
+              <div className="hidden sm:flex flex-col">
+                <span className="text-base font-extrabold text-primary tracking-wider leading-tight">SORETRAK</span>
+                <span className="text-[9px] text-gray-500 leading-tight whitespace-nowrap">{t('about.heroSubtitle').includes('histoire') ? 'Société Régionale de Transport de Kairouan' : 'الشركة الجهوية للنقل بالقيروان'}</span>
               </div>
             </Link>
 
