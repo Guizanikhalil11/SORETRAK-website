@@ -4,28 +4,33 @@ import { Search, ChevronDown, HelpCircle, Loader2 } from 'lucide-react'
 import axios from 'axios'
 
 export default function FAQ() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [faqs, setFaqs] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
   const [openIndex, setOpenIndex] = useState(null)
 
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
   const categories = ['all', 'general', 'tickets', 'routes', 'subscriptions', 'luggage']
 
   useEffect(() => {
     axios.get('/api/faq')
       .then(res => {
-        setFaqs(res.data.faqs || res.data || [])
+        const data = res.data
+        setFaqs(Array.isArray(data) ? data : data.faqs || [])
         setLoading(false)
       })
       .catch(() => setLoading(false))
   }, [])
 
+  const getQ = (faq) => lang === 'fr' ? (faq.questionFr || faq.questionAr || '') : (faq.questionAr || faq.questionFr || '')
+  const getA = (faq) => lang === 'fr' ? (faq.answerFr || faq.answerAr || '') : (faq.answerAr || faq.answerFr || '')
+
   const filteredFaqs = faqs.filter(faq => {
-    const matchesSearch = !searchTerm ||
-      faq.question?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      faq.answer?.toLowerCase().includes(searchTerm.toLowerCase())
+    const q = getQ(faq).toLowerCase()
+    const a = getA(faq).toLowerCase()
+    const matchesSearch = !searchTerm || q.includes(searchTerm.toLowerCase()) || a.includes(searchTerm.toLowerCase())
     const matchesCategory = activeCategory === 'all' || faq.category === activeCategory
     return matchesSearch && matchesCategory
   })
@@ -95,14 +100,14 @@ export default function FAQ() {
                     onClick={() => setOpenIndex(openIndex === index ? null : index)}
                     className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50/50 transition-colors"
                   >
-                    <span className="font-bold text-dark pr-4">{faq.question}</span>
+                    <span className="font-bold text-dark pr-4">{getQ(faq)}</span>
                     <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${openIndex === index ? 'bg-secondary text-white rotate-180' : 'bg-gray-100 text-gray-500'}`}>
                       <ChevronDown className="w-5 h-5" />
                     </div>
                   </button>
                   {openIndex === index && (
                     <div className="px-6 pb-5 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 animate-fadeIn">
-                      {faq.answer}
+                      {getA(faq)}
                     </div>
                   )}
                 </div>
