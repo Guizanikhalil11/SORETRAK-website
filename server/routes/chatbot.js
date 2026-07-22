@@ -103,7 +103,7 @@ function findSmartResponse(message, language) {
     if (matchAny(n, ['etudiant', 'eleve', 'scolaire', 'ecole', 'universite', 'lycee'])) {
       return 'Nous proposons des tarifs réduits pour les étudiants et élèves. Des abonnements spéciaux sont disponibles. Rendez-vous dans nos bureaux avec votre carte étudiante.';
     }
-    if (matchAny(n, ['handicap', 'accessib', 'reduit', 'personne a mobilit')) {
+    if (matchAny(n, ['handicap', 'accessib', 'reduit', 'personne a mobilite'])) {
       return 'Nos nouveaux bus sont accessibles aux personnes à mobilité réduite. Contactez-nous pour toute question spécifique.';
     }
     if (matchAny(n, ['bagage', 'bagages', 'colis', 'marchandise', 'livraison'])) {
