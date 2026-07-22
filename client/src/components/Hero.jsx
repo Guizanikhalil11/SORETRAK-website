@@ -33,7 +33,7 @@ export default function Hero() {
   return (
     <div className="relative pt-[40px]">
       <div className="relative min-h-[650px] flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: "url('/images/soretrak-bus.jpg')" }} />
+        <div className="absolute inset-0 bg-cover bg-center scale-105" style={{ backgroundImage: "url('/images/hero-bg.jpg')" }} />
         <div className="absolute inset-0 bg-gradient-to-r from-dark/95 via-primary-dark/90 to-primary/80" />
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
 
