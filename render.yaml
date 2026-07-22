@@ -3,8 +3,10 @@ services:
     name: soretrak-website
     runtime: node
     region: frankfurt
-    buildCommand: cd server && npm install && cd ../client && npm install && npm run build && cd ../server && npx prisma generate && npx prisma db push && node seed.js
+    buildCommand: cd server && npm install && npx prisma generate && npx prisma db push && cd ../client && npm install && npm run build && cd ../server && node seed.js
     startCommand: cd server && node index.js
+    healthCheckPath: /api/news
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
