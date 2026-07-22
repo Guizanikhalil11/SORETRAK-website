@@ -10,7 +10,7 @@ const auth = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'soretrak_secret_key_2024_very_secure');
 
     const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
     if (!user) {

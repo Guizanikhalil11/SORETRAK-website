@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'soretrak_secret_key_2024_very_secure', { expiresIn: '7d' });
 
     res.json({
       token,

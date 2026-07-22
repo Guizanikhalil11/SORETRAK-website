@@ -2,14 +2,12 @@
   <!-- Red background -->
   <rect width="900" height="600" fill="#E70013"/>
   <!-- White circle -->
-  <circle cx="450" cy="300" r="170" fill="#FFFFFF"/>
-  <!-- Red circle -->
-  <circle cx="450" cy="300" r="145" fill="#E70013"/>
-  <!-- White circle inside -->
-  <circle cx="450" cy="300" r="125" fill="#FFFFFF"/>
-  <!-- Red crescent -->
-  <circle cx="475" cy="300" r="105" fill="#E70013"/>
-  <circle cx="440" cy="300" r="105" fill="#FFFFFF"/>
-  <!-- Red star -->
-  <polygon points="485,300 497,262 535,262 504,238 515,200 485,224 455,200 466,238 435,262 473,262" fill="#E70013"/>
+  <circle cx="450" cy="300" r="160" fill="#FFFFFF"/>
+  <!-- Red crescent (circle offset right then white circle on left to cut) -->
+  <circle cx="480" cy="300" r="130" fill="#E70013"/>
+  <circle cx="455" cy="300" r="130" fill="#FFFFFF"/>
+  <!-- Red star inside crescent opening -->
+  <g transform="translate(510, 300)">
+    <polygon points="0,-48 11.2,-14.8 45.6,-14.8 18,-6.4 29.2,27.2 0,8.8 -29.2,27.2 -18,-6.4 -45.6,-14.8 -11.2,-14.8" fill="#E70013"/>
+  </g>
 </svg>

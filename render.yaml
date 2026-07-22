@@ -12,3 +12,5 @@ services:
         value: production
       - key: DATABASE_URL
         value: file:./dev.db
+      - key: JWT_SECRET
+        value: soretrak_secret_key_2024_very_secure
