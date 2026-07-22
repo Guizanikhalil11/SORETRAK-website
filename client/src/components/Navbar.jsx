@@ -48,7 +48,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-3 group">
               <div className="flex items-center gap-2">
-                <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-6 h-4 object-cover rounded-sm shadow-sm" />
+                <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-8 h-6 object-cover rounded-sm shadow-sm" />
                 <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-secondary group-hover:to-secondary-dark transition-all duration-300 shadow-md">
                   <Bus className="w-6 h-6 text-white" />
                 </div>
