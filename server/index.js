@@ -34,7 +34,7 @@ const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
 if (fs.existsSync(clientBuildPath)) {
   app.use(express.static(clientBuildPath));
   app.use((req, res, next) => {
-    if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
+    if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/uploads') && !req.path.match(/\.\w+$/)) {
       const indexPath = path.join(clientBuildPath, 'index.html');
       if (fs.existsSync(indexPath)) {
         return res.sendFile(indexPath);
