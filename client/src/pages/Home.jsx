@@ -168,7 +168,7 @@ export default function Home() {
       </section>
 
       <section className="py-24 bg-gradient-to-r from-primary via-primary-dark to-dark relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-[url('/images/soretrak-bus.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full mb-6 backdrop-blur-sm">
             <Award className="w-4 h-4 text-secondary" />

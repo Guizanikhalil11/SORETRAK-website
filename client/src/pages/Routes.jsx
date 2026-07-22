@@ -41,7 +41,7 @@ export default function Routes() {
   return (
     <div className="pt-[40px]">
       <div className="bg-gradient-to-r from-dark via-primary-dark to-primary py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-[url('/images/soretrak-bus.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{t('routes.title')}</h1>
