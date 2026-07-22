@@ -40,7 +40,8 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slideInLeft">
-              <span className="inline-block bg-secondary/20 text-secondary text-xs font-bold px-4 py-2 rounded-full mb-6 border border-secondary/30">
+              <span className="inline-flex items-center gap-2 bg-secondary/20 text-secondary text-xs font-bold px-4 py-2 rounded-full mb-6 border border-secondary/30">
+                <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
                 {t('about.heroSubtitle').includes('histoire')
                   ? 'République Tunisienne - Ministère des Transports'
                   : 'الجمهورية التونسية - وزارة النقل'}

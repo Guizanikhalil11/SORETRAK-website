@@ -25,7 +25,8 @@ export default function About() {
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center animate-fadeInUp">
-            <span className="inline-block bg-secondary/20 text-secondary text-xs font-bold px-4 py-2 rounded-full mb-4 border border-secondary/30">
+            <span className="inline-flex items-center gap-2 bg-secondary/20 text-secondary text-xs font-bold px-4 py-2 rounded-full mb-4 border border-secondary/30">
+              <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
               {t('about.heroSubtitle').includes('histoire') ? 'République Tunisienne - Ministère des Transports' : 'جمهورية تونس - وزارة النقل'}
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">

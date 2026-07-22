@@ -128,11 +128,15 @@ export default function Footer() {
 
       <div className="border-t border-gray-800/50 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <p className="text-center text-gray-500 text-sm">
-            © {currentYear} {t('about.heroSubtitle').includes('histoire')
-              ? 'Société Régionale de Transport de Kairouan - Tous droits réservés.'
-              : 'الشركة الجهوية للنقل بالقيروان - جميع الحقوق محفوظة.'}
-          </p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2">
+            <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
+            <p className="text-center text-gray-500 text-sm">
+              © {currentYear} {t('about.heroSubtitle').includes('histoire')
+                ? 'République Tunisienne - Société Régionale de Transport de Kairouan - Tous droits réservés.'
+                : 'الجمهورية التونسية - الشركة الجهوية للنقل بالقيروان - جميع الحقوق محفوظة.'}
+            </p>
+            <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
+          </div>
         </div>
       </div>
     </footer>
