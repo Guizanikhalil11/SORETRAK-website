@@ -12,7 +12,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null)
 
   const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
-  const categories = ['all', 'general', 'tickets', 'routes', 'subscriptions', 'luggage']
+  const categories = ['all', 'general', 'tickets', 'prices', 'schedules', 'routes', 'subscriptions', 'luggage']
 
   useEffect(() => {
     axios.get('/api/faq')

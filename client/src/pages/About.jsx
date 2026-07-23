@@ -3,20 +3,31 @@ import { Target, Eye, Heart, Calendar, Users, Bus, TrendingUp } from 'lucide-rea
 import SectionTitle from '../components/SectionTitle'
 
 export default function About() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
 
   const stats = [
     { icon: Bus, value: '200+', label: t('home.stats.buses') },
-    { icon: Users, value: '500+', label: 'موظف' },
+    { icon: Users, value: '500+', label: lang === 'fr' ? 'Employés' : 'موظف' },
     { icon: Calendar, value: '30+', label: t('home.stats.years') },
     { icon: TrendingUp, value: '10K+', label: t('home.stats.passengers') },
   ]
 
-  const timeline = [
+  const timeline = lang === 'fr' ? [
+    { year: '1990', title: 'Fondation', desc: 'Création de la société dans le but de fournir des services de transport public aux citoyens de Kairouan et des régions environnantes.' },
+    { year: '2000', title: 'Expansion', desc: 'Extension de la flotte et ouverture de nouvelles lignes reliant Kairouan aux grandes villes tunisiennes.' },
+    { year: '2010', title: 'Modernisation', desc: 'Renouvellement de la flotte avec les derniers modèles de bus équipés des normes les plus élevées de sécurité et de confort.' },
+    { year: '2014', title: 'Nouvelles lignes', desc: 'Lancement de la ligne Kairouan - Tunis via El Fahs et renforcement de la flotte avec 5 petits bus climatisés OTOKAR.' },
+    { year: '2020', title: 'Numérisation', desc: 'Introduction des technologies modernes dans la gestion et amélioration des services numériques pour les voyageurs.' },
+    { year: '2024', title: 'Innovation', desc: 'Mise en place d\'un site web moderne avec assistant virtuel et suivi en temps réel des bus.' },
+  ] : [
     { year: '1990', title: 'التأسيس', desc: 'تأسيس الشركة بهدف توفير خدمات النقل العام لمواطني القيروان والمناطق المجاورة.' },
     { year: '2000', title: 'التوسع', desc: 'توسيع الأسطول وافتتاح خطوط جديدة تربط القيروان بالمدن الكبرى التونسية.' },
     { year: '2010', title: 'التحديث', desc: 'تحديث الأسطول بأحدث أنواع الحافلات المجهزة بأعلى معايير السلامة والراحة.' },
+    { year: '2014', title: 'خطوط جديدة', desc: 'إطلاق خط القيروان - تونس عبر الفحص وتعزيز الأسطول ب 5 حافلات صغيرة مكيفة من نوع OTOKAR.' },
     { year: '2020', title: 'الرقمية', desc: 'إدخال التقنيات الحديثة في الإدارة وتحسين الخدمات الرقمية للمسافرين.' },
+    { year: '2024', title: 'الابتكار', desc: 'إطلاق موقع إلكتروني حديث مع مساعد افتراضي وتتبع مباشر للحافلات.' },
   ]
 
   return (

@@ -4,8 +4,13 @@ import { GraduationCap, Bus, DollarSign, KeyRound, CheckCircle, Loader2 } from '
 import axios from 'axios'
 
 export default function Activities() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [loading, setLoading] = useState(true)
+  const [apiActivities, setApiActivities] = useState([])
+
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
+  const getTitle = (a) => lang === 'fr' ? (a.titleFr || a.titleAr || '') : (a.titleAr || a.titleFr || '')
+  const getDesc = (a) => lang === 'fr' ? (a.descriptionFr || a.descriptionAr || '') : (a.descriptionAr || a.descriptionFr || '')
 
   const activityImages = [
     '/images/student-transport.jpg',
@@ -13,6 +18,8 @@ export default function Activities() {
     '/images/currency-transport.jpg',
     '/images/bus-rental.jpg',
   ]
+
+  const iconMap = { school: GraduationCap, directions_bus: Bus, local_shipping: DollarSign, event_available: KeyRound }
 
   const defaultActivities = [
     {
@@ -43,9 +50,20 @@ export default function Activities() {
 
   useEffect(() => {
     axios.get('/api/activities')
-      .then(() => setLoading(false))
+      .then(res => {
+        const data = res.data
+        setApiActivities(Array.isArray(data) ? data : data.activities || [])
+        setLoading(false)
+      })
       .catch(() => setLoading(false))
   }, [])
+
+  const displayActivities = apiActivities.length > 0
+    ? apiActivities.map((a, i) => ({
+        ...defaultActivities[i % defaultActivities.length],
+        apiData: a,
+      }))
+    : defaultActivities.map(a => ({ ...a, apiData: null }))
 
   return (
     <div className="pt-[40px]">
@@ -67,7 +85,7 @@ export default function Activities() {
             </div>
           ) : (
             <div className="space-y-16">
-              {defaultActivities.map((activity, index) => (
+              {displayActivities.map((activity, index) => (
                 <div
                   key={activity.key}
                   className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
@@ -77,10 +95,10 @@ export default function Activities() {
                       <activity.icon className="w-8 h-8 text-white" />
                     </div>
                     <h2 className="text-3xl font-bold text-dark mb-4">
-                      {t(`activities.${activity.key}.title`)}
+                      {activity.apiData ? getTitle(activity.apiData) : t(`activities.${activity.key}.title`)}
                     </h2>
                     <p className="text-gray-600 leading-relaxed mb-6">
-                      {t(`activities.${activity.key}.description`)}
+                      {activity.apiData ? getDesc(activity.apiData) : t(`activities.${activity.key}.description`)}
                     </p>
                     <ul className="space-y-3">
                       {activity.features.map((feature, i) => (
@@ -93,7 +111,7 @@ export default function Activities() {
                   </div>
                   <div className={index % 2 === 0 ? 'order-2' : 'order-1'}>
                     <div className="rounded-2xl overflow-hidden shadow-xl h-72">
-                      <img src={activityImages[index]} alt={t(`activities.${activity.key}.title`)} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                      <img src={activityImages[index]} alt={activity.apiData ? getTitle(activity.apiData) : t(`activities.${activity.key}.title`)} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                     </div>
                   </div>
                 </div>

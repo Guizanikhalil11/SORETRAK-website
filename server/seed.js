@@ -71,6 +71,38 @@ async function main() {
       contentFr: 'Application du tarif de seconde classe (470 millimes) pour tout trajet dépassant la station "Bab El Jadid" à partir du 1er septembre 2014.',
       image: null,
       published: true
+    },
+    {
+      titleAr: 'تحسين جودة خدمات النقل العام بالقيروان',
+      titleFr: 'Amélioration de la qualité du transport public à Kairouan',
+      contentAr: 'تسعى الشركة الجهوية للنقل بالقيروان باستمرار لتحسين جودة خدماتها من خلال تحديث الأسطول وتدريب السائقين وتحسين تجربة المسافرين. وقد تم مؤخرا تجهيز حافلات جديدة بأجهزة تكييف حديثة ومقاعد مريحة ونظام معلومات رقمي للمسافرين.',
+      contentFr: 'La SORETRAK s\'efforce continuellement d\'améliorer la qualité de ses services en modernisant sa flotte, en formant ses chauffeurs et en améliorant l\'expérience des voyageurs. Récemement, de nouveaux bus ont été équipés de systèmes de climatisation modernes, de sièges confortables et d\'un système d\'information numérique pour les voyageurs.',
+      image: null,
+      published: true
+    },
+    {
+      titleAr: 'حملة التوعية بالسلامة على متن الحافلات',
+      titleFr: 'Campagne de sensibilisation à la sécurité dans les bus',
+      contentAr: 'أطلقت الشركة حملة توعية جديدة للمسافرين حول أهمية احترام قواعد السلامة على متن الحافلات. تتضمن الحملة توزيع منشورات وتثبيت لافتات إرشادية داخل الحافلات وتنظيم حملات توعوية في المحطات الرئيسية.',
+      contentFr: 'La société a lancé une nouvelle campagne de sensibilisation pour les voyageurs sur l\'importance du respect des règles de sécurité dans les bus. La campagne comprend la distribution de brochures, l\'installation de panneaux d\'orientation dans les bus et l\'organisation de sessions de sensibilisation dans les principales stations.',
+      image: null,
+      published: true
+    },
+    {
+      titleAr: 'افتتاح خط داخلي جديد لخدمة أحياء القيروان',
+      titleFr: 'Inauguration d\'une nouvelle ligne intérieure pour les quartiers de Kairouan',
+      contentAr: 'افتتحت الشركة خط نقل داخلي جديد يربط بين عدة أحياء في مدينة القيروان بهدف تسهيل تنقلات المواطنين اليومية. يمر الخط بحي النصر والتجهيز وباب الجديد والولاية والمحكمة مع عدة محطات وسطى.',
+      contentFr: 'La société a inauguré une nouvelle ligne de transport intérieur reliant plusieurs quartiers de la ville de Kairouan pour faciliter les déplacements quotidiens des citoyens. La ligne traverse Hay Ennasser, El Tجهيز, Bab El Jadid, le Gouvernorat et le Tribunal avec plusieurs arrêts intermédiaires.',
+      image: null,
+      published: true
+    },
+    {
+      titleAr: 'تحديث تعريفات النقل العام',
+      titleFr: 'Mise à jour des tarifs de transport public',
+      contentAr: 'أعلنت الشركة الجهوية للنقل بالقيروان عن تحديث تعريفات النقل العام ابتداء من الموسم الجديد. تبقى الأسعار تنافسية مقارنة بوسائل النقل الأخرى مع الحفاظ على مستوى عالٍ من الخدمة والراحة.',
+      contentFr: 'La SORETRAK a annoncé la mise à jour des tarifs de transport public à partir de la nouvelle saison. Les prix restent compétitifs par rapport aux autres modes de transport tout en maintenant un niveau élevé de service et de confort.',
+      image: null,
+      published: true
     }
   ];
 
@@ -162,6 +194,62 @@ async function main() {
       departureTime: '06:30',
       arrivalTime: '09:00',
       price: 14.000,
+      type: 'commercial',
+      days: 'daily',
+      active: true
+    },
+    {
+      nameAr: 'القيروان - قابس',
+      nameFr: 'Kairouan - Gabès',
+      descriptionAr: 'خط القيروان قابس - رحلات يومية',
+      descriptionFr: 'Ligne Kairouan - Gabès - trajets quotidiens',
+      departure: 'القيروان',
+      arrival: 'قابس',
+      departureTime: '07:00',
+      arrivalTime: '11:30',
+      price: 20.000,
+      type: 'commercial',
+      days: 'daily',
+      active: true
+    },
+    {
+      nameAr: 'القيروان - قفصة',
+      nameFr: 'Kairouan - Gafsa',
+      descriptionAr: 'خط القيروان قفصة',
+      descriptionFr: 'Ligne Kairouan - Gafsa',
+      departure: 'القيروان',
+      arrival: 'قفصة',
+      departureTime: '07:30',
+      arrivalTime: '12:00',
+      price: 22.000,
+      type: 'commercial',
+      days: 'daily',
+      active: true
+    },
+    {
+      nameAr: 'القيروان - المهدية',
+      nameFr: 'Kairouan - Mahdia',
+      descriptionAr: 'خط القيروان المهدية عبر سوسة',
+      descriptionFr: 'Ligne Kairouan - Mahdia via Sousse',
+      departure: 'القيروان',
+      arrival: 'المهدية',
+      departureTime: '06:30',
+      arrivalTime: '09:30',
+      price: 12.000,
+      type: 'commercial',
+      days: 'daily',
+      active: true
+    },
+    {
+      nameAr: 'القيروان - المنستير',
+      nameFr: 'Kairouan - Monastir',
+      descriptionAr: 'خط القيروان المنستير',
+      descriptionFr: 'Ligne Kairouan - Monastir',
+      departure: 'القيروان',
+      arrival: 'المنستير',
+      departureTime: '06:30',
+      arrivalTime: '08:30',
+      price: 10.000,
       type: 'commercial',
       days: 'daily',
       active: true
@@ -323,6 +411,78 @@ async function main() {
       answerFr: 'Vous pouvez consulter les horaires des voyages sur notre site web ou en contactant le service client au +216 77 300 011.',
       category: 'schedules',
       order: 8
+    },
+    {
+      questionAr: 'هل يمكن حجز تذكرة مسبقاً؟',
+      questionFr: 'Peut-on réserver un billet à l\'avance?',
+      answerAr: 'حالياً لا تتوفر خدمة الحجز المسبق إلكترونياً. يمكنك شراء التذاكر مباشرة من محطات الانطلاق قبل موعد الرحلة.',
+      answerFr: 'Pour l\'instant, la réservation en ligne n\'est pas disponible. Vous pouvez acheter vos billets directement aux stations de départ avant l\'heure du départ.',
+      category: 'tickets',
+      order: 9
+    },
+    {
+      questionAr: 'هل توجد خصم على التذاكر لذوي الاحتياجات الخاصة؟',
+      questionFr: 'Y a-t-il une réduction sur les billets pour les personnes à mobilité réduite?',
+      answerAr: 'نعم، تتوفر الشركة على تعريفات مخفضة لذوي الاحتياجات الخاصة ومرافقهم. يرجى الاطلاع على المحطات الرئيسية لمزيد من التفاصيل.',
+      answerFr: 'Oui, la société propose des tarifs réduits pour les personnes à mobilité réduite et leurs accompagnateurs. Veuillez vous renseigner aux stations principales pour plus de détails.',
+      category: 'tickets',
+      order: 10
+    },
+    {
+      questionAr: 'ما هي ساعات عمل محطات الشركة؟',
+      questionFr: 'Quelles sont les heures d\'ouverture des stations?',
+      answerAr: 'تعمل المحطات الرئيسية من الساعة 06:00 صباحاً إلى الساعة 20:00 مساءً يومياً. بعض المحطات قد تعمل في مواعيد محددة حسب خطوطها.',
+      answerFr: 'Les stations principales sont ouvertes de 06h00 à 20h00 tous les jours. Certaines stations peuvent avoir des horaires spécifiques selon leurs lignes.',
+      category: 'schedules',
+      order: 11
+    },
+    {
+      questionAr: 'كم عدد محطات التوقف لكل خط؟',
+      questionFr: 'Combien d\'arrêts par ligne?',
+      answerAr: 'يختلف عدد المحطات حسب الخط. الخطوط التجارية بين الولايات لها محطات قليلة (4-6 محطات)، بينما الخطوط الداخلية لها عدة محطات وسطى لخدمة الأحياء المختلفة.',
+      answerFr: 'Le nombre d\'arrêts varie selon la ligne. Les lignes commerciales inter-gouvernorats ont peu d\'arrêts (4-6 stations), tandis que les lignes intérieures desservent plusieurs arrêts intermédiaires dans différents quartiers.',
+      category: 'schedules',
+      order: 12
+    },
+    {
+      questionAr: 'هل يُسمح באמتعة كبيرة في الحافلة؟',
+      questionFr: 'Les bagages volumineux sont-ils autorisés dans le bus?',
+      answerAr: 'يُسمح بحمل أمتعة بحجم معقول. الأمتعة الكبيرة جداً قد تخضع لرسوم إضافية. يُنصح بالتواصل مع السائق مسبقاً للتأكد من إمكانية نقل الأمتعة الكبيرة.',
+      answerFr: 'Les bagages de taille raisonnable sont autorisés. Les bagages très volumineux peuvent être soumis à des frais supplémentaires. Il est conseillé de contacter le chauffeur à l\'avance pour confirmer le transport de bagages volumineux.',
+      category: 'luggage',
+      order: 13
+    },
+    {
+      questionAr: 'هل الحافلات تتوفر على مكائن بيع تلقائي للتذاكر؟',
+      questionFr: 'Les bus sont-ils équipés de distributeurs automatiques de billets?',
+      answerAr: 'حالياً لا تتوفر مكائن بيع تلقائي داخل الحافلات. يتم شراء التذاكر يدوياً من السائق أو من المحطات.',
+      answerFr: 'Pour l\'instant, il n\'y a pas de distributeurs automatiques de billets dans les bus. Les billets sont achetés manuellement auprès du chauffeur ou aux stations.',
+      category: 'tickets',
+      order: 14
+    },
+    {
+      questionAr: 'هل يمكن استرجاع التذاكر؟',
+      questionFr: 'Peut-on se faire rembourser un billet?',
+      answerAr: 'يمكن استرجاع التذاكر غير المستخدمة في نفس اليوم من نقطة الشراء. لا يُسمح باسترجاع التذاكر في أيام لاحقة.',
+      answerFr: 'Les billets inutilisés peuvent être remboursés le même jour au point d\'achat. Le remboursement des billets pour des jours ultérieurs n\'est pas autorisé.',
+      category: 'tickets',
+      order: 15
+    },
+    {
+      questionAr: 'هل تتوفر خدمة نقل الحيوانات الأليفة؟',
+      questionFr: 'Le transport d\'animaux de compagnie est-il disponible?',
+      answerAr: 'لا يُسمح بدخول الحيوانات الأليفة في حافلات الشركة إلا في حالات استثنائية مع حاوية مناسبة وبإذن مسبق من السائق.',
+      answerFr: 'Les animaux de compagnie ne sont pas autorisés dans les bus de la société, sauf dans des cas exceptionnels avec un conteneur approprié et l\'autorisation préalable du chauffeur.',
+      category: 'luggage',
+      order: 16
+    },
+    {
+      questionAr: 'ما هو خط القيروان - تونس عبر الفحص بالتفصيل؟',
+      questionFr: 'Quels sont les détails de la ligne Kairouan - Tunis via El Fahs?',
+      answerAr: 'يبدأ الخط من القيروان على الساعة 06:00 صباحاً ويمر بمدينة الفحص ثم يصل إلى محطة باب عليوة بتونس. ينطلق الرجوع من تونس على الساعة 12:00 ظهراً. السعر: 10.000 دينار.',
+      answerFr: 'La ligne part de Kairouan à 06h00, passe par la ville d\'El Fahs puis arrive à la station Bab Alioua à Tunis. Le retour de Tunis est à 12h00. Prix : 10.000 DT.',
+      category: 'routes',
+      order: 17
     }
   ];
 
@@ -345,7 +505,7 @@ async function main() {
     {
       titleAr: 'نقل المسافرين',
       titleFr: 'Transport des voyageurs',
-      descriptionAr: 'خدمة النقل العام للمسافرين تربط القيروان بمختلف الولايات التونسية including تونس، سوسة، صفاقس، بنزرت، نابل والقصرين.',
+      descriptionAr: 'خدمة النقل العام للمسافرين تربط القيروان بمختلف الولايات التونسية بما في ذلك تونس، سوسة، صفاقس، بنزرت، نابل والقصرين.',
       descriptionFr: 'Service de transport public reliant Kairouan aux différentes gouvernorats tunisiens dont Tunis, Sousse, Sfax, Bizerte, Nabeul et Kasserine.',
       icon: 'directions_bus',
       image: null,
@@ -419,7 +579,7 @@ async function main() {
   const settingsData = [
     {
       key: 'company_name',
-      valueAr: 'سوريترAK',
+      valueAr: 'SORETRAK',
       valueFr: 'SORETRAK'
     },
     {
@@ -459,8 +619,8 @@ async function main() {
     },
     {
       key: 'about',
-      valueAr: 'الشركة الجهوية للنقل بالقيروان (سوريترAK) هي مؤسسة عمومية تونسية تابعة لوزارة النقل، مقرها في مدينة القيروان. توفر الشركة خدمات نقل المسافرين والتلاميذ والطلبة والعملة عبر شبكتها من الخطوط التي تربط القيروان بولايات تونس الأخرى.',
-      valueFr: 'La Société Régionale de Transport de Kairouan (SORETRAK) est une entreprise publique tunisienne relevant du Ministère des Transports, basée à Kairouan. La société offre des services de transport de voyageurs, d\'élèves, d\'étudiants et de devises à travers son réseau de lignes reliant Kairouan aux autres gouvernorats de la Tunisie.'
+      valueAr: 'الشركة الجهوية للنقل بالقيروان (SORETRAK) هي مؤسسة عمومية تونسية تابعة لوزارة النقل، تأسست عام 1990 ومقرها في مدينة القيروان. توفر الشركة خدمات نقل المسافرين والتلاميذ والطلبة والعملة عبر شبكتها من الخطوط التي تربط القيروان بولايات تونس الأخرى. تضم الشركة أسطولاً يزيد عن 200 حافلة و أكثر من 500 موظف، و تخدم أكثر من 10 آلاف راكب يومياً. تلتزم الشركة بأعلى معايير السلامة والجودة والراحة لجميع ركابها.',
+      valueFr: 'La Société Régionale de Transport de Kairouan (SORETRAK) est une entreprise publique tunisienne relevant du Ministère des Transports, fondée en 1990 et basée à Kairouan. La société offre des services de transport de voyageurs, d\'élèves, d\'étudiants et de devises à travers son réseau de lignes reliant Kairouan aux autres gouvernorats de la Tunisie. La société dispose d\'une flotte de plus de 200 bus et de plus de 500 employés, et dessert plus de 10 000 passagers par jour. La société s\'engage aux normes les plus élevées de sécurité, de qualité et de confort pour tous ses passagers.'
     },
     {
       key: 'facebook',

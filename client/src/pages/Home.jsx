@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { GraduationCap, Bus, DollarSign, KeyRound, Shield, Heart, Globe, CheckCircle, ArrowRight, Star, Zap, Award } from 'lucide-react'
+import { GraduationCap, Bus, DollarSign, KeyRound, Shield, Heart, Globe, CheckCircle, ArrowRight, Star, Zap, Award, Quote } from 'lucide-react'
 import Hero from '../components/Hero'
 import SectionTitle from '../components/SectionTitle'
 import axios from 'axios'
 
 export default function Home() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [news, setNews] = useState([])
   const [routes, setRoutes] = useState([])
+
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
+  const getTitle = (item) => lang === 'fr' ? (item.titleFr || item.titleAr || '') : (item.titleAr || item.titleFr || '')
+  const getContent = (item) => lang === 'fr' ? (item.contentFr || item.contentAr || '') : (item.contentAr || item.contentFr || '')
 
   useEffect(() => {
     axios.get('/api/news?limit=3').then(res => setNews(res.data.news || res.data || [])).catch(() => {})
@@ -130,8 +134,8 @@ export default function Home() {
                   )}
                   <div className="p-6">
                     <div className="text-sm text-secondary font-medium mb-2">{new Date(item.createdAt || item.date).toLocaleDateString()}</div>
-                    <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{item.titleAr || item.title}</h3>
-                    <p className="text-gray-500 text-sm line-clamp-3">{(item.contentAr || item.content || '').substring(0, 150)}...</p>
+                    <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{getTitle(item)}</h3>
+                    <p className="text-gray-500 text-sm line-clamp-3">{getContent(item).substring(0, 150)}...</p>
                     <Link
                       to={`/news/${item._id || item.id}`}
                       className="inline-flex items-center gap-1 text-secondary font-medium mt-4 hover:gap-2 transition-all duration-300 group/link"
@@ -145,6 +149,70 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <SectionTitle
+            title={lang === 'fr' ? 'Ce que disent nos voyageurs' : 'ماذا يقول مسافرونا'}
+            subtitle={lang === 'fr' ? 'Témoignages de nos clients fidèles' : 'شهادات من عملائنا المخلصين'}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {(lang === 'fr' ? [
+              { name: 'Ahmed B.', role: 'Régulier Kairouan-Tunis', text: 'Service très fiable et ponctuel. Les bus sont confortables et bien entretenus. Je voyage depuis 5 ans avec SORETRAK sans aucun problème.' },
+              { name: 'Fatma M.', role: 'Étudiante à l\'Université', text: 'L\'abonnement étudiant est très pratique et abordable. Les chauffeurs sont professionnels et la sécurité est assurée.' },
+              { name: 'Mohamed S.', role: 'Commerçant', text: 'J\'utilise le service de transport de devises depuis 3 ans. Excellent service, ponctuel et très sécurisé. Je recommande vivement.' },
+            ] : [
+              { name: 'أحمد ب.', role: 'مسافر منتظم القيروان-تونس', text: 'خدمة موثوقة ومنتظمة جداً. الحافلات مريحة ومجهزة بشكل جيد. أسافر منذ 5 سنوات مع سوريترأك بدون أي مشكلة.' },
+              { name: 'فاطمة م.', role: 'طالبة جامعية', text: 'الاشتراك الطلابي عملي جداً وبسعر مناسب. السائقون محترفون والسلامة مضمونة.' },
+              { name: 'محمد س.', role: 'تاجر', text: 'أستخدم خدمة نقل العملات منذ 3 سنوات. خدمة ممتازة ومنتظمة وآمنة جداً. أنصح بها بشدة.' },
+            ]).map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-light rounded-2xl p-8 relative hover:shadow-xl transition-all duration-500 border border-gray-100 group hover:-translate-y-1"
+              >
+                <Quote className="w-10 h-10 text-secondary/20 absolute top-6 right-6" />
+                <div className="flex items-center gap-1 mb-4">
+                  {[1,2,3,4,5].map(s => (
+                    <Star key={s} className="w-4 h-4 text-secondary fill-secondary" />
+                  ))}
+                </div>
+                <p className="text-gray-600 leading-relaxed mb-6 italic">"{testimonial.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    {testimonial.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-bold text-dark text-sm">{testimonial.name}</div>
+                    <div className="text-xs text-gray-400">{testimonial.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionTitle
+            title={lang === 'fr' ? 'Nos Partenaires' : 'شركاؤنا'}
+            subtitle={lang === 'fr' ? 'Ensemble pour un meilleur transport public' : 'معاً من أجل نقل عام أفضل'}
+          />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+            {[
+              { name: lang === 'fr' ? 'Ministère des Transports' : 'وزارة النقل', url: 'https://www.transports.gov.tn' },
+              { name: 'SNTT', url: '#' },
+              { name: 'SOGITRA', url: '#' },
+              { name: lang === 'fr' ? 'Gouvernorat de Kairouan' : 'ولاية القيروان', url: '#' },
+            ].map((partner, index) => (
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-sm flex items-center justify-center h-24 hover:shadow-lg transition-all duration-300 border border-gray-100 group">
+                <span className="text-gray-400 font-bold text-center group-hover:text-secondary transition-colors">{partner.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="py-24 bg-light relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />

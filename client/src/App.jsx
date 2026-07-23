@@ -16,6 +16,7 @@ import News from './pages/News'
 import NewsDetail from './pages/NewsDetail'
 import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
+import NotFound from './pages/NotFound'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminLogin from './pages/admin/Login'
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/news/:id" element={<PublicLayout><NewsDetail /></PublicLayout>} />
         <Route path="/faq" element={<PublicLayout><FAQ /></PublicLayout>} />
         <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route

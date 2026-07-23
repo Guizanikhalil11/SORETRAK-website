@@ -5,11 +5,16 @@ import { Calendar, ArrowRight, Loader2 } from 'lucide-react'
 import axios from 'axios'
 
 export default function News() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [news, setNews] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
+
+  const getTitle = (item) => lang === 'fr' ? (item.titleFr || item.titleAr || '') : (item.titleAr || item.titleFr || '')
+  const getContent = (item) => lang === 'fr' ? (item.contentFr || item.contentAr || '') : (item.contentAr || item.contentFr || '')
 
   useEffect(() => {
     setLoading(true)
@@ -62,8 +67,8 @@ export default function News() {
                         <Calendar className="w-4 h-4" />
                         <span>{new Date(item.createdAt || item.date).toLocaleDateString()}</span>
                       </div>
-                      <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{item.titleAr || item.title}</h3>
-                      <p className="text-gray-500 text-sm line-clamp-3 mb-4">{(item.contentAr || item.content || '').substring(0, 150)}...</p>
+                      <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{getTitle(item)}</h3>
+                      <p className="text-gray-500 text-sm line-clamp-3 mb-4">{getContent(item).substring(0, 150)}...</p>
                       <Link
                         to={`/news/${item._id || item.id}`}
                         className="inline-flex items-center gap-1 text-secondary font-medium hover:gap-2 transition-all duration-300"

@@ -5,8 +5,14 @@ import SectionTitle from '../components/SectionTitle'
 import axios from 'axios'
 
 export default function Subscriptions() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [loading, setLoading] = useState(true)
+  const [subscriptions, setSubscriptions] = useState([])
+
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
+  const getTitle = (sub) => lang === 'fr' ? (sub.titleFr || sub.titleAr || '') : (sub.titleAr || sub.titleFr || '')
+  const getDesc = (sub) => lang === 'fr' ? (sub.descriptionFr || sub.descriptionAr || '') : (sub.descriptionAr || sub.descriptionFr || '')
+  const getReqs = (sub) => lang === 'fr' ? (sub.requirementsFr || sub.requirementsAr || '') : (sub.requirementsAr || sub.requirementsFr || '')
 
   const subscriptionTypes = [
     { key: 'school', icon: GraduationCap, color: 'from-primary to-primary-dark', borderColor: 'border-primary' },
@@ -15,9 +21,32 @@ export default function Subscriptions() {
     { key: 'currency', icon: CreditCard, color: 'from-[#6A1B9A] to-[#4A148C]', borderColor: 'border-[#6A1B9A]' },
   ]
 
+  const featuresByType = {
+    school: {
+      ar: ['تغطية جميع الخطوط المدرسية', 'أسعار مخفضة للطلاب', 'سلامة عالية مع مراقبة GPS', 'حافلات مكيفة ومجهزة'],
+      fr: ['Couverture de toutes les lignes scolaires', 'Tarifs réduits pour les élèves', 'Haute sécurité avec suivi GPS', 'Bus climatisés et équipés']
+    },
+    university: {
+      ar: ['تغطية خطوط الجامعات', 'مرونة في الاستخدام', 'أسعار خاصة بالطلبة', 'خدمة WiFi في بعض الحافلات'],
+      fr: ['Couverture des lignes universitaires', 'Flexibilité d\'utilisation', 'Tarifs étudiants', 'Service WiFi dans certains bus']
+    },
+    commercial: {
+      ar: ['تغطية جميع الخطوط التجارية', 'أسعار جماعية للمؤسسات', 'فواتير رسمية', 'خدمة حصرية'],
+      fr: ['Couverture de toutes les lignes commerciales', 'Tarifs de groupe pour les entreprises', 'Factures officielles', 'Service exclusif']
+    },
+    currency: {
+      ar: ['تأمين شامل على المشاحنات', 'سائقون مدربون خصيصاً', 'متابعة GPS مباشرة', 'سرية تامة'],
+      fr: ['Assurance complète sur les chargements', 'Chauffeurs spécialement formés', 'Suivi GPS en temps réel', 'Confidentialité totale']
+    }
+  }
+
   useEffect(() => {
     axios.get('/api/subscriptions')
-      .then(() => setLoading(false))
+      .then(res => {
+        const data = res.data
+        setSubscriptions(Array.isArray(data) ? data : data.subscriptions || [])
+        setLoading(false)
+      })
       .catch(() => setLoading(false))
   }, [])
 
@@ -41,36 +70,45 @@ export default function Subscriptions() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {subscriptionTypes.map((sub) => (
-                <div
-                  key={sub.key}
-                  className={`bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border-t-4 ${sub.borderColor} hover:-translate-y-2 group`}
-                >
-                  <div className={`w-14 h-14 bg-gradient-to-br ${sub.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                    <sub.icon className="w-7 h-7 text-white" />
+              {subscriptionTypes.map((sub) => {
+                const subData = subscriptions.find(s => s.type === sub.key)
+                return (
+                  <div
+                    key={sub.key}
+                    className={`bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border-t-4 ${sub.borderColor} hover:-translate-y-2 group`}
+                  >
+                    <div className={`w-14 h-14 bg-gradient-to-br ${sub.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                      <sub.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-dark mb-2">
+                      {subData ? getTitle(subData) : t(`subscriptions.${sub.key}.title`)}
+                    </h3>
+                    <p className="text-gray-500 text-sm mb-4">
+                      {subData ? getDesc(subData) : t(`subscriptions.${sub.key}.description`)}
+                    </p>
+                    <div className="text-secondary font-bold text-lg mb-4">
+                      {t(`subscriptions.${sub.key}.price`)}
+                    </div>
+                    <ul className="space-y-2 mb-6">
+                      {(featuresByType[sub.key]?.[lang] || featuresByType[sub.key]?.ar || []).map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                          <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {subData && getReqs(subData) && (
+                      <div className="bg-light rounded-xl p-3 mb-4">
+                        <p className="text-xs font-bold text-dark mb-1">{t('subscriptions.requirements')}</p>
+                        <p className="text-xs text-gray-500">{getReqs(subData)}</p>
+                      </div>
+                    )}
+                    <button className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white py-2.5 rounded-xl font-medium hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5">
+                      {t('subscriptions.applyNow')}
+                    </button>
                   </div>
-                  <h3 className="text-xl font-bold text-dark mb-2">
-                    {t(`subscriptions.${sub.key}.title`)}
-                  </h3>
-                  <p className="text-gray-500 text-sm mb-4">
-                    {t(`subscriptions.${sub.key}.description`)}
-                  </p>
-                  <div className="text-secondary font-bold text-lg mb-4">
-                    {t(`subscriptions.${sub.key}.price`)}
-                  </div>
-                  <ul className="space-y-2 mb-6">
-                    {[1, 2, 3].map((i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                        <span>ميزة {i} للاشتراك</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white py-2.5 rounded-xl font-medium hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5">
-                    {t('subscriptions.applyNow')}
-                  </button>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>
