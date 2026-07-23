@@ -59,7 +59,7 @@ export default function Home() {
                 className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:-translate-y-2 group hover-lift"
               >
                 <div className="h-44 overflow-hidden relative">
-                  <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-40 group-hover:opacity-60 transition-opacity duration-500`} />
                 </div>
                 <div className="p-6 relative">
@@ -142,7 +142,7 @@ export default function Home() {
                 >
                   {item.image && (
                     <div className="h-48 overflow-hidden">
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <img src={item.image} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     </div>
                   )}
                   <div className="p-6">

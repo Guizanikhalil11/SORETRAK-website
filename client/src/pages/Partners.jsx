@@ -59,7 +59,7 @@ export default function Partners() {
                 >
                   <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                     {partner.logo ? (
-                      <img src={partner.logo} alt={getName(partner)} className="w-12 h-12 object-contain" />
+                      <img src={partner.logo} alt={getName(partner)} loading="lazy" className="w-12 h-12 object-contain" />
                     ) : (
                       <ExternalLink className="w-7 h-7 text-primary" />
                     )}

@@ -59,7 +59,7 @@ export default function News() {
                   >
                     {item.image && (
                       <div className="h-48 overflow-hidden">
-                        <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <img src={item.image} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       </div>
                     )}
                     <div className="p-6">

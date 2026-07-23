@@ -5,21 +5,41 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 
 export default function Contact() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [sending, setSending] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    if (name === 'message' && value.length > 1000) return
+    setForm({ ...form, [name]: value })
+    if (errors[name]) setErrors({ ...errors, [name]: '' })
+  }
+
+  const validate = () => {
+    const errs = {}
+    if (!form.name.trim()) errs.name = lang === 'fr' ? 'Nom requis' : 'الاسم مطلوب'
+    if (!form.email.trim()) errs.email = lang === 'fr' ? 'Email requis' : 'البريد مطلوب'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = lang === 'fr' ? 'Email invalide' : 'بريد غير صالح'
+    if (form.phone && !/^(\+216|2|3|4|5|7|8|9)\d{7}$/.test(form.phone.replace(/\s/g, ''))) errs.phone = lang === 'fr' ? 'Numéro invalide' : 'رقم غير صالح'
+    if (!form.subject.trim()) errs.subject = lang === 'fr' ? 'Sujet requis' : 'الموضوع مطلوب'
+    if (!form.message.trim()) errs.message = lang === 'fr' ? 'Message requis' : 'الرسالة مطلوبة'
+    else if (form.message.trim().length < 10) errs.message = lang === 'fr' ? '10 caractères minimum' : '10 أحرف على الأقل'
+    setErrors(errs)
+    return Object.keys(errs).length === 0
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!validate()) return
     setSending(true)
     try {
       await axios.post('/api/contact', form)
       toast.success(t('contact.form.success'))
       setForm({ name: '', email: '', phone: '', subject: '', message: '' })
+      setErrors({})
     } catch {
       toast.error(t('contact.form.error'))
     } finally {
@@ -53,30 +73,38 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="bg-light rounded-2xl p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.name')}</label>
-                    <input type="text" name="name" value={form.name} onChange={handleChange} required
-                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm" />
+                    <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.name')}</label>
+                    <input id="contact-name" type="text" name="name" value={form.name} onChange={handleChange}
+                      className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.name ? 'border-red-400' : 'border-gray-200'}`} />
+                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.email')}</label>
-                    <input type="email" name="email" value={form.email} onChange={handleChange} required
-                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm" />
+                    <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.email')}</label>
+                    <input id="contact-email" type="email" name="email" value={form.email} onChange={handleChange}
+                      className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.email ? 'border-red-400' : 'border-gray-200'}`} />
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.phone')}</label>
-                    <input type="tel" name="phone" value={form.phone} onChange={handleChange}
-                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm" />
+                    <label htmlFor="contact-phone" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.phone')}</label>
+                    <input id="contact-phone" type="tel" name="phone" value={form.phone} onChange={handleChange}
+                      className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.phone ? 'border-red-400' : 'border-gray-200'}`} />
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.subject')}</label>
-                    <input type="text" name="subject" value={form.subject} onChange={handleChange} required
-                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm" />
+                    <label htmlFor="contact-subject" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.subject')}</label>
+                    <input id="contact-subject" type="text" name="subject" value={form.subject} onChange={handleChange}
+                      className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.subject ? 'border-red-400' : 'border-gray-200'}`} />
+                    {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
                   </div>
                 </div>
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.message')}</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} required rows={5}
-                    className="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent resize-none bg-white shadow-sm" />
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.message')}</label>
+                  <textarea id="contact-message" name="message" value={form.message} onChange={handleChange} required rows={5} maxLength={1000}
+                    className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent resize-none bg-white shadow-sm ${errors.message ? 'border-red-400' : 'border-gray-200'}`} />
+                  {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                  <p className={`text-xs mt-1 ${form.message.length > 900 ? 'text-red-500' : 'text-gray-400'}`}>
+                    {form.message.length}/1000
+                  </p>
                 </div>
                 <button
                   type="submit"

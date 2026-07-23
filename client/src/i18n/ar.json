@@ -241,7 +241,9 @@
     "previous": "السابق",
     "of": "من",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "emailPlaceholder": "بريدك الإلكتروني",
+    "subscribe": "اشترك"
   },
   "tenders": {
     "title": "المناقصات والعرض",

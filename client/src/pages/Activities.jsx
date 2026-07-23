@@ -111,7 +111,7 @@ export default function Activities() {
                   </div>
                   <div className={index % 2 === 0 ? 'order-2' : 'order-1'}>
                     <div className="rounded-2xl overflow-hidden shadow-xl h-72">
-                      <img src={activityImages[index]} alt={activity.apiData ? getTitle(activity.apiData) : t(`activities.${activity.key}.title`)} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                      <img src={activityImages[index]} alt={activity.apiData ? getTitle(activity.apiData) : t(`activities.${activity.key}.title`)} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                     </div>
                   </div>
                 </div>

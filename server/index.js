@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
 const { PrismaClient } = require('@prisma/client');
@@ -15,9 +17,24 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 app.use(cors());
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadsDir));
+
+const chatLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 20,
+  message: { error: 'Too many messages, please try again later' }
+});
+
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { error: 'Too many messages, please try again later' }
+});
+
+app.get('/api/health', (req, res) => { res.json({ status: 'ok', timestamp: new Date().toISOString() }) });
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/news', require('./routes/news'));
@@ -25,8 +42,8 @@ app.use('/api/routes', require('./routes/routes'));
 app.use('/api/faq', require('./routes/faq'));
 app.use('/api/activities', require('./routes/activities'));
 app.use('/api/subscriptions', require('./routes/subscriptions'));
-app.use('/api/contact', require('./routes/contact'));
-app.use('/api/chatbot', require('./routes/chatbot'));
+app.use('/api/contact', contactLimiter, require('./routes/contact'));
+app.use('/api/chatbot', chatLimiter, require('./routes/chatbot'));
 app.use('/api/settings', require('./routes/settings'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 app.use('/api/partners', require('./routes/partners'));

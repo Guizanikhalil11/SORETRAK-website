@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa'
 
 export default function Footer() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const currentYear = new Date().getFullYear()
 
   return (
@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <img src="/images/soretrak-logo.png" alt="SORETRAK" className="h-12 w-auto object-contain" />
+              <img src="/images/soretrak-logo.png" alt="SORETRAK" loading="lazy" className="h-12 w-auto object-contain" />
               <div>
                 <span className="text-lg font-extrabold block leading-tight text-white">SORETRAK</span>
                 <span className="text-[10px] text-gray-400 leading-tight">
@@ -128,6 +128,25 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            <div className="mt-6">
+              <h4 className="text-sm font-bold text-white mb-3">
+                {i18n.language === 'fr' ? 'Newsletter' : 'النشرة الإخبارية'}
+              </h4>
+              <form onSubmit={(e) => { e.preventDefault(); /* just visual */ }} className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder={t('common.emailPlaceholder')}
+                  className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:ring-2 focus:ring-secondary focus:border-secondary"
+                  aria-label={t('common.emailPlaceholder')}
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors"
+                >
+                  {t('common.subscribe')}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

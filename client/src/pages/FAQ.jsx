@@ -99,6 +99,7 @@ export default function FAQ() {
                   <button
                     onClick={() => setOpenIndex(openIndex === index ? null : index)}
                     className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50/50 transition-colors"
+                    aria-expanded={openIndex === index}
                   >
                     <span className="font-bold text-dark pr-4">{getQ(faq)}</span>
                     <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${openIndex === index ? 'bg-secondary text-white rotate-180' : 'bg-gray-100 text-gray-500'}`}>

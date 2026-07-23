@@ -99,6 +99,8 @@ export default function Navbar() {
                         ? 'text-white bg-primary shadow-md'
                         : 'text-gray-700 hover:text-secondary hover:bg-secondary-light'
                     }`}
+                    aria-expanded={link.children ? openDropdown === link.key : undefined}
+                    aria-haspopup={link.children ? 'true' : undefined}
                   >
                     {t(`nav.${link.key}`)}
                     {link.children && (
@@ -131,6 +133,7 @@ export default function Navbar() {
                 <button
                   onClick={() => { if (i18n.language !== 'ar') toggleLanguage() }}
                   className={`px-3 py-1.5 transition-all duration-200 ${i18n.language === 'ar' ? 'bg-gradient-to-r from-primary to-primary-dark text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+                  aria-label="Switch to Arabic"
                 >
                   AR
                 </button>
@@ -138,6 +141,7 @@ export default function Navbar() {
                 <button
                   onClick={() => { if (i18n.language !== 'fr') toggleLanguage() }}
                   className={`px-3 py-1.5 transition-all duration-200 ${i18n.language === 'fr' ? 'bg-gradient-to-r from-secondary to-secondary-dark text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+                  aria-label="Switch to French"
                 >
                   FR
                 </button>
@@ -146,6 +150,8 @@ export default function Navbar() {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isOpen}
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>

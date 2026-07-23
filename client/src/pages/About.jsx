@@ -65,7 +65,7 @@ export default function About() {
               <p className="text-gray-600 leading-relaxed">{t('about.historyText')}</p>
             </div>
             <div className="relative rounded-2xl overflow-hidden animate-slideInRight">
-              <img src="/images/about-company.jpg" alt="SORETRAK" className="w-full h-80 object-cover" />
+              <img src="/images/about-company.jpg" alt="SORETRAK" loading="lazy" className="w-full h-80 object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6 grid grid-cols-2 gap-3">
                 {stats.map((stat, index) => (

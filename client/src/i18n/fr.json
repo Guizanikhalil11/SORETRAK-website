@@ -241,7 +241,9 @@
     "previous": "Précédent",
     "of": "sur",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "emailPlaceholder": "Votre email",
+    "subscribe": "S'abonner"
   },
   "tenders": {
     "title": "Appels d'offres",

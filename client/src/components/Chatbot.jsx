@@ -14,6 +14,8 @@ export default function Chatbot() {
   const inputRef = useRef(null)
   const sessionIdRef = useRef('session_' + Date.now())
 
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
+
   const getWelcome = useCallback(() => {
     return i18n.language === 'ar'
       ? 'مرحباً بكم! أنا مساعد SORETRAK الافتراضي. كيف يمكنني مساعدتكم؟'
@@ -28,7 +30,7 @@ export default function Chatbot() {
 
   useEffect(() => {
     if (messages.length === 0) {
-      setMessages([{ id: 1, text: getWelcome(), sender: 'bot' }])
+      setMessages([{ id: 1, text: getWelcome(), sender: 'bot', createdAt: new Date().toISOString() }])
       setActiveQuickReplies(getInitialQuickReplies())
     }
   }, [i18n.language, getWelcome, getInitialQuickReplies])
@@ -45,7 +47,7 @@ export default function Chatbot() {
     const msgText = text || input.trim()
     if (!msgText || isTyping) return
 
-    const userMessage = { id: Date.now(), text: msgText, sender: 'user' }
+    const userMessage = { id: Date.now(), text: msgText, sender: 'user', createdAt: new Date().toISOString() }
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setIsTyping(true)
@@ -60,14 +62,14 @@ export default function Chatbot() {
       const reply = response.data.response || response.data.reply || response.data.message
       const qr = response.data.quickReplies || []
       if (reply) {
-        setMessages((prev) => [...prev, { id: Date.now() + 1, text: reply, sender: 'bot' }])
+        setMessages((prev) => [...prev, { id: Date.now() + 1, text: reply, sender: 'bot', createdAt: new Date().toISOString() }])
         setActiveQuickReplies(qr)
       }
     } catch (err) {
       const errorMsg = i18n.language === 'ar'
         ? 'عذراً، حدث خطأ تقني. يرجى المحاولة مرة أخرى أو التواصل معنا على +216 77 300 011'
         : 'Désolé, une erreur technique. Réessayez ou contactez-nous au +216 77 300 011'
-      setMessages((prev) => [...prev, { id: Date.now() + 1, text: errorMsg, sender: 'bot' }])
+      setMessages((prev) => [...prev, { id: Date.now() + 1, text: errorMsg, sender: 'bot', createdAt: new Date().toISOString() }])
       setActiveQuickReplies([])
     } finally {
       setIsTyping(false)
@@ -90,7 +92,7 @@ export default function Chatbot() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-xl flex items-center justify-center text-white transition-all duration-300 hover:scale-110 bg-gradient-to-br from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary"
-        aria-label="Chat"
+        aria-label={isOpen ? (lang === 'fr' ? 'Fermer le chat' : 'إغلاق المحادثة') : (lang === 'fr' ? 'Ouvrir le chat' : 'فتح المحادثة')}
       >
         {isOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />}
       </button>
@@ -119,7 +121,7 @@ export default function Chatbot() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2.5 sm:space-y-3 bg-gray-50/50 min-h-0">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2.5 sm:space-y-3 bg-gray-50/50 min-h-0" role="log" aria-live="polite">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {msg.sender === 'bot' && (
@@ -135,6 +137,9 @@ export default function Chatbot() {
                   }`}
                 >
                   {msg.text}
+                  <span className="text-[10px] opacity-50 mt-0.5 block">
+                    {new Date(msg.createdAt || Date.now()).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'ar-TN', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
                 </div>
                 {msg.sender === 'user' && (
                   <div className="w-6 h-6 sm:w-7 sm:h-7 bg-primary/10 rounded-lg flex items-center justify-center ml-1.5 sm:ml-2 mt-0.5 flex-shrink-0">
