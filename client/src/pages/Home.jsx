@@ -30,10 +30,10 @@ export default function Home() {
   }, [])
 
   const services = [
-    { icon: GraduationCap, title: t('home.services.student.title'), desc: t('home.services.student.description'), color: 'from-primary to-primary-dark', image: '/images/student-transport.jpg' },
-    { icon: Bus, title: t('home.services.passenger.title'), desc: t('home.services.passenger.description'), color: 'from-secondary to-secondary-dark', image: '/images/passenger-transport.jpg' },
-    { icon: DollarSign, title: t('home.services.currency.title'), desc: t('home.services.currency.description'), color: 'from-[#1565C0] to-[#0D47A1]', image: '/images/currency-transport.jpg' },
-    { icon: KeyRound, title: t('home.services.rental.title'), desc: t('home.services.rental.description'), color: 'from-[#6A1B9A] to-[#4A148C]', image: '/images/bus-rental.jpg' },
+    { icon: GraduationCap, title: t('home.services.student.title'), desc: t('home.services.student.description'), color: 'from-primary to-primary-dark', image: '/images/student-transport.jpg', link: '/subscriptions' },
+    { icon: Bus, title: t('home.services.passenger.title'), desc: t('home.services.passenger.description'), color: 'from-secondary to-secondary-dark', image: '/images/passenger-transport.jpg', link: '/routes' },
+    { icon: DollarSign, title: t('home.services.currency.title'), desc: t('home.services.currency.description'), color: 'from-[#1565C0] to-[#0D47A1]', image: '/images/currency-transport.jpg', link: '/contact' },
+    { icon: KeyRound, title: t('home.services.rental.title'), desc: t('home.services.rental.description'), color: 'from-[#6A1B9A] to-[#4A148C]', image: '/images/bus-rental.jpg', link: '/contact' },
   ]
 
   const features = [
@@ -53,9 +53,10 @@ export default function Home() {
           <SectionTitle title={t('home.servicesTitle')} subtitle={t('home.servicesSubtitle')} />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
-              <div
+              <Link
                 key={index}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:-translate-y-2 group hover-lift"
+                to={service.link}
+                className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:-translate-y-2 group hover-lift"
               >
                 <div className="h-44 overflow-hidden relative">
                   <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -65,10 +66,13 @@ export default function Home() {
                   <div className={`w-14 h-14 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-4 -mt-11 relative z-10 shadow-xl`}>
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-dark mb-2">{service.title}</h3>
+                  <h3 className="text-lg font-bold text-dark mb-2 group-hover:text-primary transition-colors">{service.title}</h3>
                   <p className="text-gray-500 text-sm leading-relaxed">{service.desc}</p>
+                  <span className="inline-flex items-center gap-1 text-secondary font-medium text-sm mt-3 group-hover:gap-2 transition-all duration-300">
+                    {i18n.language === 'fr' ? 'En savoir plus' : 'المزيد من التفاصيل'} <ArrowRight className="w-4 h-4" />
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
