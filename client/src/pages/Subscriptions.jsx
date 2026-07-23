@@ -140,8 +140,7 @@ export default function Subscriptions() {
                 </div>
                 <a
                   href={form.file}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  download
                   className="p-2.5 text-secondary hover:bg-secondary-light rounded-xl transition-colors hover:scale-110"
                   title={lang === 'fr' ? 'Télécharger' : 'تحميل'}
                 >
