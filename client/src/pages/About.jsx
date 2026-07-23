@@ -45,7 +45,7 @@ export default function About() {
               <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
               {t('about.heroSubtitle').includes('histoire') ? 'République Tunisienne - Ministère des Transports' : 'جمهورية تونس - وزارة النقل'}
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">
               {t('about.heroSubtitle').includes('histoire')
                 ? 'Société Régionale de Transport de Kairouan'
                 : 'الشركة الجهوية للنقل بالقيروان'}
@@ -60,7 +60,7 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block bg-secondary/10 text-secondary text-xs font-bold px-5 py-2 rounded-full mb-4 border border-secondary/20">{t('about.whoWeAre')}</span>
-              <h2 className="text-3xl font-extrabold text-dark mb-6 tracking-tight">{t('about.heroSubtitle').includes('histoire') ? 'Qui Sommes-Nous?' : 'من نحن؟'}</h2>
+              <h2 className="text-4xl font-extrabold text-dark mb-6 tracking-tight">{t('about.heroSubtitle').includes('histoire') ? 'Qui Sommes-Nous?' : 'من نحن؟'}</h2>
               <p className="text-gray-600 leading-relaxed mb-4">{t('about.whoWeAreText')}</p>
               <p className="text-gray-600 leading-relaxed">{t('about.historyText')}</p>
             </div>
@@ -97,7 +97,7 @@ export default function About() {
                     <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 inline-block border border-gray-100/80 card-glow">
                       <div className="text-secondary font-bold text-xl mb-1">{item.year}</div>
                       <h3 className="text-lg font-bold text-dark mb-2">{item.title}</h3>
-                      <p className="text-gray-500 text-sm">{item.desc}</p>
+                      <p className="text-gray-500 text-base">{item.desc}</p>
                     </div>
                   </div>
                   <div className="w-5 h-5 bg-gradient-to-br from-primary to-secondary rounded-full z-10 flex-shrink-0 shadow-lg border-2 border-white" />
@@ -124,7 +124,7 @@ export default function About() {
                 <div className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg`}>
                   <item.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-dark mb-3">{item.title}</h3>
+                <h3 className="text-2xl font-extrabold text-dark mb-3">{item.title}</h3>
                 <p className="text-gray-500 leading-relaxed">{item.text}</p>
               </div>
             ))}

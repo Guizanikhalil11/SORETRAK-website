@@ -60,7 +60,7 @@ export default function Contact() {
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">{t('contact.title')}</h1>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">{t('contact.title')}</h1>
             <p className="text-xl text-white/80">{t('contact.heroSubtitle')}</p>
           </div>
         </div>
@@ -73,32 +73,32 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="bg-light rounded-2xl p-8 border border-gray-100/80">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.name')}</label>
+                    <label htmlFor="contact-name" className="block text-base font-medium text-gray-700 mb-2">{t('contact.form.name')}</label>
                     <input id="contact-name" type="text" name="name" value={form.name} onChange={handleChange}
                       className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.name ? 'border-red-400' : 'border-gray-200'}`} />
                     {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.email')}</label>
+                    <label htmlFor="contact-email" className="block text-base font-medium text-gray-700 mb-2">{t('contact.form.email')}</label>
                     <input id="contact-email" type="email" name="email" value={form.email} onChange={handleChange}
                       className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.email ? 'border-red-400' : 'border-gray-200'}`} />
                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                   </div>
                   <div>
-                    <label htmlFor="contact-phone" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.phone')}</label>
+                    <label htmlFor="contact-phone" className="block text-base font-medium text-gray-700 mb-2">{t('contact.form.phone')}</label>
                     <input id="contact-phone" type="tel" name="phone" value={form.phone} onChange={handleChange}
                       className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.phone ? 'border-red-400' : 'border-gray-200'}`} />
                     {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                   </div>
                   <div>
-                    <label htmlFor="contact-subject" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.subject')}</label>
+                    <label htmlFor="contact-subject" className="block text-base font-medium text-gray-700 mb-2">{t('contact.form.subject')}</label>
                     <input id="contact-subject" type="text" name="subject" value={form.subject} onChange={handleChange}
                       className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent bg-white shadow-sm ${errors.subject ? 'border-red-400' : 'border-gray-200'}`} />
                     {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
                   </div>
                 </div>
                 <div className="mb-6">
-                  <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.message')}</label>
+                  <label htmlFor="contact-message" className="block text-base font-medium text-gray-700 mb-2">{t('contact.form.message')}</label>
                   <textarea id="contact-message" name="message" value={form.message} onChange={handleChange} required rows={5} maxLength={1000}
                     className={`w-full px-4 py-3.5 border rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent resize-none bg-white shadow-sm ${errors.message ? 'border-red-400' : 'border-gray-200'}`} />
                   {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
@@ -134,7 +134,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-bold text-dark mb-1">{info.label}</h4>
-                    <p className="text-gray-500 text-sm">{info.value}</p>
+                    <p className="text-gray-500 text-base">{info.value}</p>
                   </div>
                 </div>
               ))}

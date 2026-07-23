@@ -11,6 +11,15 @@
   --color-darker: #16213e;
   --color-light: #F4F6F8;
   --color-accent: #D4A843;
+
+  --text-fluid-sm: clamp(0.9rem, 0.17vw + 0.86rem, 1rem);
+  --text-fluid-base: clamp(1.1rem, 0.19vw + 1.05rem, 1.25rem);
+  --text-fluid-lg: clamp(1.35rem, 0.28vw + 1.2rem, 1.55rem);
+  --text-fluid-xl: clamp(1.6rem, 0.4vw + 1.4rem, 1.85rem);
+  --text-fluid-2xl: clamp(1.9rem, 0.58vw + 1.7rem, 2.3rem);
+  --text-fluid-3xl: clamp(2.3rem, 0.85vw + 2rem, 2.9rem);
+  --text-fluid-4xl: clamp(2.8rem, 1.23vw + 2.4rem, 3.6rem);
+  --text-fluid-5xl: clamp(3.4rem, 1.81vw + 2.8rem, 4.5rem);
 }
 
 html {

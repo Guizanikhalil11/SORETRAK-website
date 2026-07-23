@@ -13,11 +13,11 @@ export default function SectionTitle({ title, subtitle, light = false }) {
         </span>
         <div className={`w-8 h-0.5 ${light ? 'bg-white/40' : 'bg-gradient-to-l from-transparent to-primary'}`} />
       </div>
-      <h2 className={`text-3xl md:text-4xl font-extrabold mb-4 leading-tight ${light ? 'text-white' : 'text-dark'}`}>
+      <h2 className={`text-4xl md:text-[2.8rem] font-extrabold mb-4 leading-tight ${light ? 'text-white' : 'text-dark'}`}>
         {title}
       </h2>
       {subtitle && (
-        <p className={`text-lg max-w-2xl mx-auto leading-relaxed ${light ? 'text-gray-300' : 'text-gray-500'}`}>
+        <p className={`text-xl max-w-2xl mx-auto leading-relaxed ${light ? 'text-gray-300' : 'text-gray-500'}`}>
           {subtitle}
         </p>
       )}

@@ -52,10 +52,10 @@ export default function Hero() {
                   ? 'République Tunisienne - Ministère des Transports'
                   : 'الجمهورية التونسية - وزارة النقل'}
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-[4.2rem] font-extrabold text-white mb-6 leading-[1.1] tracking-tight">
                 {t('home.heroTitle')}
               </h1>
-              <p className="text-xl text-white/75 mb-10 leading-relaxed max-w-lg">
+              <p className="text-2xl text-white/70 mb-10 leading-relaxed max-w-lg">
                 {t('home.heroSubtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -76,7 +76,7 @@ export default function Hero() {
 
             <div className="hidden lg:block animate-slideInRight">
               <form onSubmit={handleSearch} className="glass-premium rounded-3xl shadow-2xl p-8 border border-white/20">
-                <h3 className="text-dark font-extrabold text-lg mb-5 flex items-center gap-2">
+                <h3 className="text-dark font-extrabold text-xl mb-5 flex items-center gap-2">
                   <Search className="w-5 h-5 text-secondary" />
                   {t('home.searchButton')}
                 </h3>

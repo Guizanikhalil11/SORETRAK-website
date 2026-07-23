@@ -66,7 +66,7 @@ export default function Home() {
                   <div className={`w-14 h-14 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-4 -mt-11 relative z-10 shadow-xl`}>
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-dark mb-2 group-hover:text-primary transition-colors">{service.title}</h3>
+                  <h3 className="text-xl font-bold text-dark mb-2 group-hover:text-primary transition-colors">{service.title}</h3>
                   <p className="text-gray-500 text-sm leading-relaxed">{service.desc}</p>
                   <span className="inline-flex items-center gap-1 text-secondary font-medium text-sm mt-3 group-hover:gap-2 transition-all duration-300">
                     {i18n.language === 'fr' ? 'En savoir plus' : 'المزيد من التفاصيل'} <ArrowRight className="w-4 h-4" />
@@ -147,7 +147,7 @@ export default function Home() {
                   )}
                   <div className="p-6">
                     <div className="inline-flex items-center gap-1.5 text-xs font-bold text-secondary bg-secondary/10 px-3 py-1 rounded-full mb-3">{new Date(item.createdAt || item.date).toLocaleDateString()}</div>
-                    <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{getTitle(item)}</h3>
+                    <h3 className="text-xl font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{getTitle(item)}</h3>
                     <p className="text-gray-500 text-sm line-clamp-3">{getContent(item).substring(0, 150)}...</p>
                     <Link
                       to={`/news/${item._id || item.id}`}
@@ -190,7 +190,7 @@ export default function Home() {
                     <Star key={s} className="w-4 h-4 text-secondary fill-secondary" />
                   ))}
                 </div>
-                <p className="text-gray-600 leading-relaxed mb-6 italic">"{testimonial.text}"</p>
+                <p className="text-gray-600 leading-relaxed mb-6 italic text-lg">"{testimonial.text}"</p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-sm">
                     {testimonial.name.charAt(0)}
@@ -240,8 +240,8 @@ export default function Home() {
                 <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300 border border-primary/10">
                   <feature.icon className={`w-8 h-8 ${feature.color}`} />
                 </div>
-                <h3 className="text-lg font-bold text-dark mb-2">{feature.title}</h3>
-                <p className="text-gray-500 text-sm">{feature.desc}</p>
+                <h3 className="text-xl font-bold text-dark mb-2">{feature.title}</h3>
+                <p className="text-gray-500 text-base">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -255,8 +255,8 @@ export default function Home() {
             <Award className="w-4 h-4 text-secondary" />
             {t('about.heroSubtitle').includes('histoire') ? 'Depuis plus de 30 ans' : 'منذ أكثر من 30 عاماً'}
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('home.ctaTitle')}</h2>
-          <p className="text-xl text-white/80 mb-8">{t('home.ctaSubtitle')}</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">{t('home.ctaTitle')}</h2>
+          <p className="text-2xl text-white/80 mb-8">{t('home.ctaSubtitle')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/subscriptions"
