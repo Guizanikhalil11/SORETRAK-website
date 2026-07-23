@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 import { Search, MapPin, Clock, Bus, Loader2 } from 'lucide-react'
 import SectionTitle from '../components/SectionTitle'
 import axios from 'axios'
 
 export default function Routes() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const [searchParams] = useSearchParams()
   const [routes, setRoutes] = useState([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('school')
+  const [activeTab, setActiveTab] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
-  const [fromCity, setFromCity] = useState('')
-  const [toCity, setToCity] = useState('')
+  const [fromCity, setFromCity] = useState(searchParams.get('from') || '')
+  const [toCity, setToCity] = useState(searchParams.get('to') || '')
+
+  const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
 
   const cities = [
     'القيروان', 'تونس', 'صفاقس', 'سوسة', 'المنستير',
@@ -86,7 +90,7 @@ export default function Routes() {
           </div>
 
           <div className="flex gap-3 mt-6">
-            {['school', 'commercial'].map((tab) => (
+            {['all', 'school', 'commercial'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -96,7 +100,7 @@ export default function Routes() {
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                {t(`routes.${tab}`)}
+                {tab === 'all' ? (lang === 'fr' ? 'Toutes' : 'الكل') : t(`routes.${tab}`)}
               </button>
             ))}
           </div>

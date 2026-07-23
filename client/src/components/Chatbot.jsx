@@ -9,57 +9,73 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [activeQuickReplies, setActiveQuickReplies] = useState([])
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
   const sessionIdRef = useRef('session_' + Date.now())
 
   const getWelcome = useCallback(() => {
     return i18n.language === 'ar'
-      ? 'مرحباً بكم! أنا مساعد SORETRAK الافتراضي. يمكنني مساعدتكم في:\n\n- مواعيد الحافلات\n- الأسعار والمسارات\n- حجز التذاكر\n- الاشتراكات\n\nكيف يمكنني مساعدتكم؟'
-      : 'Bienvenue ! Je suis l\'assistant virtuel de SORETRAK. Je peux vous aider avec :\n\n- Horaires des bus\n- Prix et itinéraires\n- Réservation de billets\n- Abonnements\n\nComment puis-je vous aider ?'
+      ? 'مرحباً بكم! أنا مساعد SORETRAK الافتراضي. كيف يمكنني مساعدتكم؟'
+      : 'Bienvenue ! Je suis l\'assistant virtuel de SORETRAK. Comment puis-je vous aider ?'
+  }, [i18n.language])
+
+  const getInitialQuickReplies = useCallback(() => {
+    return i18n.language === 'ar'
+      ? ['مواعيد', 'أسعار', 'الخطوط', 'الاتصال']
+      : ['Horaires', 'Prix', 'Lignes', 'Contact']
   }, [i18n.language])
 
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([{ id: 1, text: getWelcome(), sender: 'bot' }])
+      setActiveQuickReplies(getInitialQuickReplies())
     }
-  }, [i18n.language, getWelcome])
+  }, [i18n.language, getWelcome, getInitialQuickReplies])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, activeQuickReplies])
 
   useEffect(() => {
     if (isOpen) setTimeout(() => inputRef.current?.focus(), 100)
   }, [isOpen])
 
-  const handleSend = async () => {
-    if (!input.trim() || isTyping) return
+  const handleSend = async (text) => {
+    const msgText = text || input.trim()
+    if (!msgText || isTyping) return
 
-    const userMessage = { id: Date.now(), text: input.trim(), sender: 'user' }
-    const userInput = input.trim()
+    const userMessage = { id: Date.now(), text: msgText, sender: 'user' }
     setMessages((prev) => [...prev, userMessage])
     setInput('')
     setIsTyping(true)
+    setActiveQuickReplies([])
 
     try {
       const response = await axios.post('/api/chatbot', {
-        message: userInput,
+        message: msgText,
         language: i18n.language,
         sessionId: sessionIdRef.current
       })
       const reply = response.data.response || response.data.reply || response.data.message
+      const qr = response.data.quickReplies || []
       if (reply) {
         setMessages((prev) => [...prev, { id: Date.now() + 1, text: reply, sender: 'bot' }])
+        setActiveQuickReplies(qr)
       }
     } catch (err) {
       const errorMsg = i18n.language === 'ar'
         ? 'عذراً، حدث خطأ تقني. يرجى المحاولة مرة أخرى أو التواصل معنا على +216 77 300 011'
         : 'Désolé, une erreur technique. Réessayez ou contactez-nous au +216 77 300 011'
       setMessages((prev) => [...prev, { id: Date.now() + 1, text: errorMsg, sender: 'bot' }])
+      setActiveQuickReplies([])
     } finally {
       setIsTyping(false)
     }
+  }
+
+  const handleQuickReply = (reply) => {
+    handleSend(reply)
   }
 
   const handleKeyPress = (e) => {
@@ -68,10 +84,6 @@ export default function Chatbot() {
       handleSend()
     }
   }
-
-  const quickReplies = i18n.language === 'ar'
-    ? ['مواعيد', 'أسعار', 'الخطوط', 'الاتصال']
-    : ['Horaires', 'Prix', 'Lignes', 'Contact']
 
   return (
     <>
@@ -148,13 +160,14 @@ export default function Chatbot() {
             <div ref={messagesEndRef} />
           </div>
 
-          {messages.length <= 1 && (
-            <div className="px-3 pb-2 flex flex-wrap gap-1.5 flex-shrink-0">
-              {quickReplies.map((reply, i) => (
+          {activeQuickReplies.length > 0 && (
+            <div className="px-3 pb-2 flex flex-wrap gap-1.5 flex-shrink-0 max-h-24 overflow-y-auto">
+              {activeQuickReplies.map((reply, i) => (
                 <button
                   key={i}
-                  onClick={() => { setInput(reply); setTimeout(handleSend, 100) }}
-                  className="text-[10px] sm:text-xs px-2.5 py-1 sm:px-3 sm:py-1.5 bg-secondary/10 text-secondary rounded-full hover:bg-secondary/20 transition-colors border border-secondary/20"
+                  onClick={() => handleQuickReply(reply)}
+                  disabled={isTyping}
+                  className="text-[10px] sm:text-xs px-2.5 py-1 sm:px-3 sm:py-1.5 bg-secondary/10 text-secondary rounded-full hover:bg-secondary/20 transition-colors border border-secondary/20 disabled:opacity-40"
                 >
                   {reply}
                 </button>
@@ -169,12 +182,12 @@ export default function Chatbot() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder={t('chatbot.placeholder')}
                 className="flex-1 px-3 py-2 sm:px-4 sm:py-2.5 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-secondary focus:border-transparent outline-none bg-gray-50 min-w-0"
               />
               <button
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={!input.trim() || isTyping}
                 className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-r from-secondary to-secondary-dark rounded-xl flex items-center justify-center text-white hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
               >

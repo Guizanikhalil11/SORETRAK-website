@@ -5,273 +5,300 @@ const prisma = new PrismaClient();
 
 function normalizeAr(text) {
   return text
-    .replace(/[ًٌٍَُِّْ]/g, '')
-    .replace(/[أإآ]/g, 'ا')
-    .replace(/ة/g, 'ه')
-    .replace(/ى/g, 'ي')
-    .replace(/ؤ/g, 'و')
-    .replace(/ئ/g, 'ي')
-    .toLowerCase()
-    .trim();
+    .replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g, ' ')
+    .replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي')
+    .replace(/ؤ/g, 'و').replace(/ئ/g, 'ي')
+    .toLowerCase().trim();
 }
 
 function normalizeFr(text) {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/['']/g, "'")
-    .replace(/[éèêë]/g, 'e')
-    .replace(/[àâä]/g, 'a')
-    .replace(/[ùûü]/g, 'u')
-    .replace(/[îï]/g, 'i')
-    .replace(/[ôö]/g, 'o')
-    .replace(/ç/g, 'c');
+  return text.toLowerCase().trim()
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
 }
 
-function matchAny(normalized, keywords) {
-  for (const kw of keywords) {
-    if (normalized.indexOf(kw) !== -1) return true;
-  }
+function matchAny(n, keywords) {
+  for (const kw of keywords) { if (n.indexOf(kw) !== -1) return true; }
   return false;
 }
 
-function wordMatch(normalized, words) {
-  const parts = normalized.split(/\s+/);
-  for (const w of words) {
-    for (const p of parts) {
-      if (p === w || p.startsWith(w) || w.startsWith(p)) return true;
+function findBestRule(message, lang) {
+  const n = lang === 'fr' ? normalizeFr(message) : normalizeAr(message);
+  const allRules = lang === 'fr' ? frRules : arRules;
+  let best = null;
+  let bestScore = 0;
+  for (const rule of allRules) {
+    let score = 0;
+    for (const kw of rule.kw) {
+      if (n.indexOf(kw) !== -1) score++;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = rule;
     }
   }
-  return false;
-}
-
-function findSmartResponse(message, language) {
-  if (language === 'fr') {
-    const n = normalizeFr(message);
-
-    if (matchAny(n, ['bonjour', 'salut', 'hello', 'bonsoir', 'coucou', 'hey', 'bon matin', 'bjr', 'slt'])) {
-      return 'Bienvenue ! Je suis l\'assistant virtuel de SORETRAK. Comment puis-je vous aider ? Je peux vous renseigner sur les horaires, les prix, les abonnements, les lignes et bien plus encore.';
-    }
-    if (matchAny(n, ['merci', 'super', 'bravo', 'genial', 'parfait', 'ok', 'c\'est bien', 'awesome'])) {
-      return 'Avec plaisir ! N\'hésitez pas si vous avez d\'autres questions. Bon voyage !';
-    }
-    if (matchAny(n, ['au revoir', 'bye', 'a bientot', 'a plus', 'tchao', 'salut'])) {
-      return 'Merci de nous avoir contactés ! Nous vous souhaitons un voyage sûr et agréable. Revenez quand vous voulez !';
-    }
-    if (matchAny(n, ['qui', 'presentation', 'about', 'soretrak', 'entreprise', 'societe', 'qui etes'])) {
-      return 'SORETRAK (Société Régionale de Transport de Kairouan) est une entreprise publique de transport par bus basée à Kairouan, Tunisie. Elle assure le transport interurbain vers Tunis, Sousse, Sfax, Nabeul, Bizerte et d\'autres villes. Créée en 1975, elle dessert des millions de passagers chaque année.';
-    }
-    if (matchAny(n, ['horaire', 'heure', 'debut', 'fin', 'quand', 'ouvre', 'ferme', 'ou sont les horaires', 'service'])) {
-      return 'Le service des bus fonctionne tous les jours de 06h00 à 20h00. Les horaires peuvent varier le vendredi et les jours fériés. Consultez la page des itinéraires pour les horaires détaillés de chaque ligne.';
-    }
-    if (matchAny(n, ['prix', 'tarif', 'cout', 'combien', 'dinar', 'dt', 'cher', 'moins cher'])) {
-      return 'Voici nos tarifs principaux :\n- Kairouan → Tunis : 12 DT\n- Kairouan → Sousse : 8 DT\n- Kairouan → Sfax : 16 DT\n- Kairouan → Nabeul : 14 DT\nLes prix peuvent varier selon le type de bus.';
-    }
-    if (matchAny(n, ['abonnement', 'carte', 'inscri', 'adherent', 'adhesion'])) {
-      return 'SORETRAK propose des abonnements scolaires et universitaires à tarifs réduits. L\'abonnement étudiant commence à 200 DT/an. Disponible dans nos bureaux à Kairouan.';
-    }
-    if (matchAny(n, ['billet', 'ticket', 'acheter', 'reserver', 'reservation', 'achats'])) {
-      return 'Les billets sont disponibles dans nos stations principales à Kairouan ou directement à bord des bus. Paiement en espèces uniquement.';
-    }
-    if (matchAny(n, ['plainte', 'reclamation', 'probleme', 'service client', 'signaler', 'insatisfait'])) {
-      return 'Contactez-nous :\n- Téléphone : +216 77 300 011\n- Email : contact@soretrak.com.tn\n- Formulaire de contact sur notre site\nNous traitons toutes les réclamations.';
-    }
-    if (matchAny(n, ['climatisation', 'clim', 'temperature', 'froid', 'chaud', 'climatis'])) {
-      return 'Oui, tous nos bus modernes sont climatisés et conformes aux normes internationales.';
-    }
-    if (matchAny(n, ['paiement', 'payer', 'espece', 'especes', 'espèce', 'carte bancaire', 'mobile', 'electronique', 'virement'])) {
-      return 'Le paiement se fait en espèces dans les bus ou aux stations. Le paiement par carte bancaire et mobile sera disponible prochainement.';
-    }
-    if (matchAny(n, ['ligne', 'itineraire', 'destination', 'route', 'bus pour', 'direction', 'aller'])) {
-      return 'Nos principales lignes :\n- Kairouan → Tunis (quotidien)\n- Kairouan → Sousse (quotidien)\n- Kairouan → Sfax (quotidien)\n- Kairouan → Nabeul (3 trajets/jour)\n- Kairouan → Bizerte\nConsultez la page Itinéraires.';
-    }
-    if (matchAny(n, ['adresse', 'siege', 'bureau', 'localisation', 'ou', 'situe', 'map', 'plan'])) {
-      return 'Notre siège : Avenue Habib Bourguiba, Kairouan, Tunisie.\nTéléphone : +216 77 300 011';
-    }
-    if (matchAny(n, ['flotte', 'bus', 'vehicule', 'car', 'autocar', 'parc'])) {
-      return 'Notre flotte comprend des bus modernes climatisés de marques OTOKAR et d\'autres conformes aux normes internationales. Elle a été renforcée récemment par 5 nouveaux petits bus.';
-    }
-    if (matchAny(n, ['tel', 'telephone', 'appeler', 'numero', 'contact', 'joindre'])) {
-      return 'Contactez-nous :\n- Téléphone : +216 77 300 011\n- Email : contact@soretrak.com.tn\n- Site : soretrak.com.tn';
-    }
-    if (matchAny(n, ['horaires bus', 'prochain bus', 'prochaine depart', 'quand part le bus'])) {
-      return 'Le premier bus part à 06h00 et le dernier à 20h00. Consultez la page des itinéraires pour les horaires exacts de chaque ligne.';
-    }
-    if (matchAny(n, ['retard', 'retarder', 'attente', 'attend', 'attendre', 'temps'])) {
-      return 'En cas de retard, vous pouvez appeler notre service client au +216 77 300 011 pour connaître la situation en temps réel.';
-    }
-    if (matchAny(n, ['etudiant', 'eleve', 'scolaire', 'ecole', 'universite', 'lycee'])) {
-      return 'Nous proposons des tarifs réduits pour les étudiants et élèves. Des abonnements spéciaux sont disponibles. Rendez-vous dans nos bureaux avec votre carte étudiante.';
-    }
-    if (matchAny(n, ['handicap', 'accessib', 'reduit', 'personne a mobilite'])) {
-      return 'Nos nouveaux bus sont accessibles aux personnes à mobilité réduite. Contactez-nous pour toute question spécifique.';
-    }
-    if (matchAny(n, ['bagage', 'bagages', 'colis', 'marchandise', 'livraison'])) {
-      return 'Chaque passager peut embarquer un bagage à raison de 20 kg par personne. Pour les colis et marchandises, contactez-nous directement.';
-    }
-    if (matchAny(n, ['sécurité', 'securite', 'surete', 'assurance', 'accident'])) {
-      return 'La sécurité est notre priorité. Tous nos bus sont assurés et nos chauffeurs sont formés et certifiés. En cas d\'urgence, appelez le +216 77 300 011.';
-    }
-    if (matchAny(n, ['wifi', 'internet', 'connexion', 'reseau'])) {
-      return 'Le WiFi n\'est pas encore disponible dans nos bus, mais nous prévoyons de l\'ajouter prochainement.';
-    }
-    if (matchAny(n, ['perturbation', 'annulation', 'suspendu', 'ferme', 'grève', 'greve'])) {
-      return 'En cas de perturbation du service, nous informons nos passagers via notre site et nos pages sociales. Appelez le +216 77 300 011 pour info.';
-    }
-    if (matchAny(n, ['reclamer', 'rembours', 'annul', 'voyage annul'])) {
-      return 'Pour toute demande de remboursement ou réclamation, contactez-nous au +216 77 300 011 ou via le formulaire de contact.';
-    }
-    if (matchAny(n, ['facebook', 'instagram', 'youtube', 'reseaux sociaux', 'social'])) {
-      return 'Suivez-nous sur nos réseaux sociaux pour les dernières actualités et mises à jour ! Vous trouverez les liens dans le pied de page de notre site.';
-    }
-    if (matchAny(n, ['nouveau', 'nouveaute', 'actualite', 'actualités', 'dernier', 'dernière', 'news'])) {
-      return 'Consultez notre page Actualités pour découvrir les dernières nouvelles : nouveau bus, nouvelles lignes, et informations importantes.';
-    }
-    if (matchAny(n, ['kairouan', 'kef', 'sousse', 'sfax', 'tunis', 'nabeul', 'bizerte', 'monastir'])) {
-      return 'Oui, nous desservons ces villes ! Consultez la page Itinéraires pour les horaires et tarifs de chaque destination.';
-    }
-    if (matchAny(n, ['voyage', 'voyager', 'trajet', 'trajets', 'aller retour', 'aller-retour'])) {
-      return 'Nos bus effectuent des trajets quotidiens entre Kairouan et les grandes villes. Consultez la page Itinéraires pour plus de détails.';
-    }
-    if (matchAny(n, ['comment', 'comment faire', 'comment aller', 'comment prendre'])) {
-      return 'Pour prendre le bus SORETRAK, rendez-vous à notre station principale à Kairouan (Avenue Habib Bourguiba) ou achetez votre billet directement dans le bus.';
-    }
-    if (matchAny(n, ['ok', 'daccord', 'd\'accord', 'compris', 'c\'est bon', 'noté'])) {
-      return 'Parfait ! N\'hésitez pas si vous avez d\'autres questions. Je suis là pour vous aider.';
-    }
-    if (matchAny(n, ['aide', 'help', 'besoin', 'help me', 'assistant'])) {
-      return 'Je peux vous aider avec :\n- Horaires et départs\n- Prix et tarifs\n- Lignes et itinéraires\n- Abonnements\n- Réclamations\n- Contact et adresse\nPosez-moi votre question !';
-    }
-    if (matchAny(n, ['tarif reduit', 'reduction', 'demi tarif', 'moitie prix', 'gratuit', 'gratuit'])) {
-      return 'Les tarifs réduits s\'appliquent aux étudiants, élèves et personnes éligibles. Contactez nos bureaux pour plus d\'informations.';
-    }
-    if (matchAny(n, ['nuit', 'nuité', 'dernier bus', 'derniere course'])) {
-      return 'Le dernier bus part à 20h00. Nous ne fonctionnons pas de nuit. Planifiez votre voyage en conséquence.';
-    }
-    if (matchAny(n, ['matin', 'tôt', 'tôt le matin', 'premier bus', 'premier depart'])) {
-      return 'Le premier bus part à 06h00 du matin tous les jours.';
-    }
-  }
-
-  // Arabic
-  const n = normalizeAr(message);
-
-  if (matchAny(n, ['مرحبا', 'هلا', 'سلام', 'صباح', 'مساء', 'هاي', 'اهلا', 'سلام عليكم', 'هلا والله', 'مرحبت', 'السلام', 'صباح الخير', 'مساء الخير', 'اهلا بك'])) {
-    return 'مرحباً بكم! أنا مساعد SORETRAK الافتراضي. كيف يمكنني مساعدتكم؟ يمكنني الإجابة عن أسئلةكم حول المواعيد والأسعار والاشتراكات والمسارات والمزيد.';
-  }
-  if (matchAny(n, ['شكر', 'ممتاز', 'حلو', 'برافو', 'تمام', 'كويس', 'جميل', 'يعطيك', 'العافية', '辛苦', 'ربحي'])) {
-    return 'الشكر لكم! يسعدنا خدمتكم. لا تترددوا في التواصل معنا لأي استفسار آخر.';
-  }
-  if (matchAny(n, ['وداع', 'باي', 'مع السلامة', 'الى اللقاء', 'باي باي', 'يلا باي'])) {
-    return 'شكراً لتواصلكم معنا! نتمنى لكم رحلة آمنة. لا تترددوا في العودة אלינו في أي وقت.';
-  }
-  if (matchAny(n, ['من انتم', 'عن الشركة', 'سوريترак', 'من هي الشركة', 'شنو سوريتراك', 'كيفاش الشركة', 'قدم yourselves'])) {
-    return 'شركة SORETRAK (الشركة الجهوية للنقل بالقيروان) هي مؤسسة عامة تونسية متخصصة في نقل الركاب بالحافلات بين المدن التونسية. تأسست سنة 1975 ومقرها القيروان. تخدم ملايين الركاب سنوياً.';
-  }
-  if (matchAny(n, ['مواعيد', 'ساعات', 'وقت', 'انطلاق', 'عودة', 'تبدأ', 'تنتهي', 'من كم', 'لحد كم', 'وقت العمل', 'متى', 'يعملون'])) {
-    return 'تبدأ الحافلات العمل من الساعة 06:00 صباحاً وينتهي الخدمة في الساعة 20:00 (8 مساءً) يومياً. في الجمعة والعطل قد تتغير الأوقات.';
-  }
-  if (matchAny(n, ['سعر', 'ثمن', 'دينار', 'ملليم', 'التكلفة', 'كم ي cost', 'كم يساوي', 'غالي', 'رخيص', 'شحال', 'شحال الثمن', 'باهي الثمن'])) {
-    return 'تختلف الأسعار حسب المسار:\n- القيروان - تونس: 12 دينار\n- القيروان - سوسة: 8 دينار\n- القيروان - صفاقس: 16 دينار\n- القيروان - نابل: 14 دينار\nللحصول على الأسعار التفصيلية يرجى الاطلاع على صفحة الخطوط.';
-  }
-  if (matchAny(n, ['اشتراك', 'مشترك', 'بطاقة اشتراك', 'اشتراك طلبة', 'اشتراك تلميذ', 'اشتراك طلاب'])) {
-    return 'توفر SORETRAK اشتراكات مدرسية وجامعية بأسعار مخفضة. اشتراك الطلاب يبدأ من 200 دينار/سنة. يمكنكم شراء الاشتراكات من المقرات الرئيسية للشركة في القيروان.';
-  }
-  if (matchAny(n, ['تذكرة', 'تذاكر', 'حجز', 'شراء', 'كيفاش نشري', 'كيف نشري', 'نحب نمشي', 'نحب نحجز'])) {
-    return 'يمكنكم شراء التذاكر من المحطات الرئيسية للشركة في القيروان أو داخل الحافلات مباشرةً. الدفع متاح نقداً فقط حالياً.';
-  }
-  if (matchAny(n, ['شكوى', 'شكاوى', 'مشكلة', 'خدمة عملاء', 'ندمان', 'ما عجبني', 'خدمتكم خايبة'])) {
-    return 'يمكنكم التواصل معنا عبر:\n- الهاتف: +216 77 300 011\n- البريد: contact@soretrak.com.tn\n- نموذج الاتصال على موقعنا\nنرحب بجميع ملاحظاتكم.';
-  }
-  if (matchAny(n, ['مكيف', 'تكييف', 'حرارة', 'الحر', 'بارد', 'برد', 'جاي بالبرد'])) {
-    return 'نعم، جميع الحافلات الحديثة مجهّزة بالتكييف. كما تم تجهيزها بنظام GPS لمتابعة المسارات.';
-  }
-  if (matchAny(n, ['نقدي', 'دفع', 'الدفع', 'موبايل', 'كرت', 'شيك', 'بنك'])) {
-    return 'يمكن الدفع نقداً داخل الحافلات أو في المحطات. حالياً لا نقبل الدفع الإلكتروني، لكننا نعمل على إدخاله قريباً.';
-  }
-  if (matchAny(n, ['مسار', 'خط', 'وجهة', 'الى', 'من القيروان', 'ينجم يمشي', 'وقين يوصل', 'ينجم يوصل', 'wu9e3'])) {
-    return 'نوفر خطوطاً منتظمة من القيروان:\n- القيروان - تونس (يومي)\n- القيروان - سوسة (يومي)\n- القيروان - صفاقس (يومي)\n- القيروان - نابل (3 رحلات يومياً)\n- القيروان - بنزرت';
-  }
-  if (matchAny(n, ['مقر', 'عنوان', 'مكان', 'وين', 'فين', 'location', 'وين المقر'])) {
-    return 'يقع مقر الشركة في شارع الحبيب بورقيبة بالقيروان. هاتفنا: +216 77 300 011';
-  }
-  if (matchAny(n, ['حافلة', 'باص', 'باصات', 'автобус', 'car', 'autocar', 'car Interurbain'])) {
-    return 'أسطولنا يشمل حافلات حديثة مكيفة من نوع OTOKAR مطابقة للمواصفات الدولية. تم تعزيز الأسطول مؤخراً بـ 5 حافلات صغيرة.';
-  }
-  if (matchAny(n, ['تيليفون', 'هاتف', 'نمرة', 'نمبر', 'اتصل', 'رنّي', 'كلمني'])) {
-    return 'اتصلوا بنا على:\n- الهاتف: +216 77 300 011\n- البريد: contact@soretrak.com.tn';
-  }
-  if (matchAny(n, ['طالبة', 'طالب', 'تلميذ', 'تلميزة', 'مدرسة', 'جامعة', 'دراسة', 'المدرسة'])) {
-    return 'نوفر اشتراكات مخفضة للطلبة والتلاميذ. اشتراك الطلاب يبدأ من 200 دينار/سنة. يمكنكم شراء الاشتراك من مقراتنا بالقيروان.';
-  }
-  if (matchAny(n, ['شحال', 'شحال الحساب', 'شحال ي cost'])) {
-    return 'أسعارنا:\n- القيروان - تونس: 12 دينار\n- القيروان - سوسة: 8 دينار\n- القيروان - صفاقس: 16 دينار\n- القيروان - نابل: 14 دينار';
-  }
-  if (matchAny(n, ['متى', 'وقتاش', 'وقتاش يبدا', 'وقتاش يكمل'])) {
-    return 'الخدمة تبدأ من 06:00 صباحاً وتنتهي في 20:00 مساءً يومياً.';
-  }
-  if (matchAny(n, ['وين', 'فين', 'شحال العنوان', 'location', 'map'])) {
-    return 'المقر: شارع الحبيب بورقيبة - القيروان\nالهاتف: +216 77 300 011';
-  }
-  if (matchAny(n, ['باص لتونس', 'حافلة لتونس', 'باص سوسة', 'حافلة سوسة', 'باص صفاقس', 'حافلة صفاقس', 'باص نابل', 'حافلة نابل'])) {
-    return 'نعم، نوفر خطوط يومية لمدن تونس وسوسة وصفاقس ونابل. تفقد صفحة الخطوط للمزيد من التفاصيل.';
-  }
-  if (matchAny(n, ['متوقف', 'معلق', 'مش شغال', 'marche pas', 'ما يخدمش', 'probleme'])) {
-    return 'في حالة التوقف عن العمل أو أي مشكلة، يرجى الاتصال بنا على +216 77 300 011 للحصول على معلومات حية.';
-  }
-  if (matchAny(n, ['شكر', 'يعطيك', 'العافية', 'thank'])) {
-    return 'الشكر لكم! يسعدنا خدمتكم.';
-  }
-  if (matchAny(n, ['كيفاش', 'كيف نعمل', 'شنية الطريقة', 'comment'])) {
-    return 'للحصول على معلومات عن كيفية السفر معنا، تفضل بزيارة صفحة الخطوط أو اتصل بنا على +216 77 300 011.';
-  }
-  if (matchAny(n, ['تمام', 'كويس', 'اوك', 'تم', 'حسن', 'جيد'])) {
-    return 'تمام! لا تترددوا في طرح أي سؤال آخر.';
-  }
-  if (matchAny(n, ['شنيه', 'شنو', 'شني', 'شنوة', 'شناه', 'شو', 'شن'])) {
-    return 'يمكنني مساعدتكم بمعلومات عن:\n- مواعيد الحافلات\n- الأسعار وال.tarifs\n- الخطوط والمسارات\n- الاشتراكات\n- معلومات الاتصال\nاسألوني!';
-  }
-  if (matchAny(n, ['فيسبوك', 'انستغرام', 'يوتيوب', 'سوشيال ميديا', 'social'])) {
-    return 'تابعونا على صفحاتنا على فيسبوك وإنستغرام ويوتيوب للحصول على آخر الأخبار والتحديثات.';
-  }
-  if (matchAny(n, ['جديد', 'أخبار', 'اخبار', 'آخر أخبار', 'احدث', 'news'])) {
-    return 'زوروا صفحة الأخبار لمتابعة آخر المستجدات: حافلات جديدة، خطوط جديدة، ومعلومات مهمة.';
-  }
-  if (matchAny(n, ['تونس', 'سوسة', 'صفاقس', 'نابل', 'بنزرت', 'القيروان', 'الكاف', 'المهدية', 'بنزرت', 'قابس'])) {
-    return 'نعم، نوفر خطوطاً لهذه المدن! تفقد صفحة الخطوط لجدول المواعيد والأسعار.';
-  }
-  if (matchAny(n, ['رحلة', 'voyage', 'safari', 'نحب نمشي', 'valise'])) {
-    return 'نوفر رحلات يومية من القيروان إلى عدة مدن. رحلتنا تبدأ من 06:00 صباحاً. تفقد صفحة الخطوط.';
-  }
-  if (matchAny(n, ['wa9ef', 'wa9a3', 'station', ' محطة', 'محطة الانطلاق', 'wa9fa'])) {
-    return 'محطة الانطلاق الرئيسية: شارع الحبيب بورقيبة - القيروان. هاتف: +216 77 300 011.';
-  }
-  if (matchAny(n, ['wikipedia', 'تاريخ', 'تاريخ الشركة', 'متى تأسست'])) {
-    return 'تأسست SORETRAK سنة 1975 وهي من أهم شركات النقل في تونس. مقرها القيروان وتنقل ملايين الركاب سنوياً.';
-  }
-  if (matchAny(n, ['handicap', 'personne agee', 'personne a mobilite', 'accessib'])) {
-    return 'بعض حافلاتنا الحديثة مجهزة لذوي الحركة. للمساعدة الاتصال على +216 77 300 011.';
-  }
-  if (matchAny(n, ['bagage', 'valise', 'colis', 'شحال الحد'])) {
-    return 'كل راكب يمكنه حمل حقيبة بوزن 20 كيلو غرام. للشحن الخاص يرجى الاتصال بنا.';
-  }
-  if (matchAny(n, ['securite', 'amane', 'accident', ' assurance'])) {
-    return 'سلامة الراكبين أولويتنا. جميع الحافلات مؤمّنة والسائقون مؤهلون. في حالة الطوارئ الاتصال على +216 77 300 011.';
-  }
-  if (matchAny(n, ['wifi', 'internet', 'connexion', 'reseau', 'نت'])) {
-    return 'خدمة WiFi ليست متوفرة حالياً داخل الحافلات لكننا نعمل على إضافتها قريباً.';
-  }
-  if (matchAny(n, ['annulation', 'supprime', 'grève', 'greve', 'mouche'])) {
-    return 'في حالة الإلغاء أو التعطيل، ننشر بلاغات عبر موقعنا وصفحاتنا. يرجى الاتصال على +216 77 300 011.';
-  }
-  if (matchAny(n, ['rembours', 'retour argent', 'flech'])) {
-    return 'لطلبات استرداد الأموال أو الشكاوى، يرجى التواصل معنا على +216 77 300 011.';
-  }
-  if (matchAny(n, ['aide', 'besoin', 'help', 'chnowa', 'chneya', 'شنيه', 'شنو نعمل'])) {
-    return 'يمكنني مساعدتكم ب:\n- مواعيد الانطلاق والعودة\n- الأسعار وال.tarifs\n- الخطوط والمسارات\n- الاشتراكات\n- معلومات الاتصال\nاسألوني!';
-  }
-
+  if (best && bestScore >= 1) return best;
   return null;
+}
+
+const frRules = [
+  { kw: ['bonjour','salut','hello','bonsoir','coucou','hey','bon matin','bjr','slt','bonne nuit','bonsoir'],
+    resp: 'Bienvenue chez SORETRAK ! Je peux vous renseigner sur :\n- Horaires et d\u00e9parts\n- Prix et tarifs\n- Abonnements\n- Lignes et destinations\n- Contact\n\nPosez-moi votre question !',
+    qr: ['Horaires','Prix','Abonnements','Lignes'] },
+  { kw: ['merci','super','bravo','genial','parfait','excellent','top','ok merci'],
+    resp: 'Avec plaisir ! N\u2019h\u00e9sitez pas si vous avez d\u2019autres questions. Bon voyage !',
+    qr: [] },
+  { kw: ['au revoir','bye','a bientot','a plus','tchao','ciao'],
+    resp: 'Merci de nous avoir contact\u00e9s ! Bon voyage et \u00e0 bient\u00f4t !',
+    qr: [] },
+  { kw: ['qui etes','presentation','soretrak','entreprise','societe','c est quoi','vous etes','quoi faire'],
+    resp: 'SORETRAK = Soci\u00e9t\u00e9 R\u00e9gionale de Transport de Kairouan.\n\nFond\u00e9e en 1990, entreprise publique bas\u00e9e \u00e0 Kairouan.\n\nNos services :\n- Transport interurbain (Tunis, Sousse, Sfax...)\n- Transport scolaire et universitaire\n- Transport de devises\n- Location de bus\n\nFlotte : 200+ bus modernes climatis\u00e9s.',
+    qr: ['Lignes','Abonnements','Contact'] },
+  { kw: ['horaire','heure','debut','fin','quand','ouvre','ferme','service','schedule','horaires','apres midi'],
+    resp: 'Horaires de service :\n\nBus : 06h00 \u2013 20h00 (tous les jours)\nPremier d\u00e9part : 06h00\nDernier d\u00e9part : 20h00\n\nHoraires variables le vendredi et jours f\u00e9ri\u00e9s.',
+    qr: ['Lignes','Prochain bus','Prix'] },
+  { kw: ['prochain bus','prochain depart','quand part le bus','apres','prochaine course'],
+    resp: 'Prochain bus depuis la station principale (Avenue Habib Bourguiba) :\n\nFr\u00e9quence : toutes les 30-60 min selon les lignes.\nD\u00e9part : 06h00 \u2013 20h00.',
+    qr: ['Horaires','Lignes','Prix'] },
+  { kw: ['prix','tarif','cout','combien','dinar','dt','cher','tarifs','coutent','coute'],
+    resp: 'Tarifs principaux :\n\nKairouan \u2192 Tunis : 12 DT\nKairouan \u2192 Sousse : 8 DT\nKairouan \u2192 Sfax : 16 DT\nKairouan \u2192 Nabeul : 14 DT\nKairouan \u2192 Bizerte : 18 DT\nKairouan \u2192 Gab\u00e8s : 20 DT\nKairouan \u2192 Gafsa : 22 DT\n\nInt\u00e9rieur : 470 millimes.',
+    qr: ['Abonnements','R\u00e9duction','Lignes'] },
+  { kw: ['tarif reduit','reduction','demi tarif','moitie prix','gratuit'],
+    resp: 'Tarifs r\u00e9duits pour :\n- \u00c9l\u00e8ves et \u00e9tudiants (abonnement)\n- Personnes \u00e0 mobilit\u00e9 r\u00e9duite\n- Personnes \u00e2g\u00e9es\n\nContactez nos bureaux avec vos documents.',
+    qr: ['Abonnements','Documents'] },
+  { kw: ['abonnement','carte','inscri','adherent','adhesion','abonner'],
+    resp: 'Abonnements :\n\n1. Scolaire : 200 DT/an\n2. Universitaire : 300 DT/an\n3. Commercial : sur demande\n4. Transport devises : sur demande\n\nDocuments : carte d\u2019identit\u00e9 + certificat d\u2019inscription.\nDisponible au si\u00e8ge de Kairouan.',
+    qr: ['Documents','Prix','Contact'] },
+  { kw: ['document','papier','justificatif','piece','fournir','apporter'],
+    resp: 'Documents requis :\n- Carte d\u2019identit\u00e9 (original + copie)\n- Certificat d\u2019inscription\n- Photo d\u2019identit\u00e9\n- Registre de commerce (commer\u00e7ants)\n- Relev\u00e9 bancaire (entreprises)',
+    qr: ['Abonnements','Contact'] },
+  { kw: ['billet','ticket','acheter','reserver','reservation','comment achet','ou acheter'],
+    resp: 'Achat de billets :\n\n1. En station : guichets principaux\n2. Dans le bus : aupr\u00e8s du chauffeur\n\nPaiement : esp\u00e8ces uniquement.\nPas de r\u00e9servation en ligne.',
+    qr: ['Horaires','Prix','Contact'] },
+  { kw: ['plainte','reclamation','probleme','signaler','insatisfait','mauvais','nul'],
+    resp: 'R\u00e9clamations :\n\n- T\u00e9l : +216 77 300 011\n- Email : contact@soretrak.com.tn\n- Formulaire : page Contact\n\nTraitement sous 48h.',
+    qr: ['Contact','Email'] },
+  { kw: ['climatisation','clim','temperature','froid','chaud','climatis'],
+    resp: 'Oui, tous nos bus sont climatis\u00e9s et conformes aux normes internationales.',
+    qr: ['Bus','Confort'] },
+  { kw: ['paiement','payer','espece','especes','carte bancaire','mobile','electronique'],
+    resp: 'Paiement en esp\u00e8ces uniquement.\nDans le bus ou aux stations.\n\nPaiement \u00e9lectronique bient\u00f4t disponible.',
+    qr: ['Prix','Abonnements'] },
+  { kw: ['ligne','itineraire','destination','route','direction','lignes','ou va le bus','partir','aller a'],
+    resp: 'Lignes principales :\n\nKairouan \u2192 Tunis (direct) : 12 DT\nKairouan \u2192 Tunis via El Fahs : 10 DT\nKairouan \u2192 Sousse : 8 DT\nKairouan \u2192 Sfax : 16 DT\nKairouan \u2192 Nabeul : 14 DT\nKairouan \u2192 Bizerte : 18 DT\nKairouan \u2192 Monastir : 10 DT\nKairouan \u2192 Mahdia : 12 DT',
+    qr: ['Horaires','Prix','Int\u00e9rieures'] },
+  { kw: ['interieur','quartier','local','interieures','ligne interieure'],
+    resp: 'Lignes int\u00e9rieures :\n1. Les Immeubles - Hay Mohamed Ali - Zone Industrielle\n2. Hay Ennour - El Mansoura\n3. Les Immeubles - H\u00f4pital Aghaliba\n4. Hay Ennasser - Bab El Jadid - Gouvernorat\n\nTarif : 470 millimes.',
+    qr: ['Lignes','Prix'] },
+  { kw: ['adresse','siege','bureau','localisation','situe','plan','trouver'],
+    resp: 'Si\u00e8ge : Avenue Habib Bourguiba, Kairouan\nT\u00e9l : +216 77 300 011\nEmail : contact@soretrak.com.tn\nOuvert : Lun-Ven 8h-17h',
+    qr: ['T\u00e9l\u00e9phone','Email','Contact'] },
+  { kw: ['flotte','vehicule','car','autocar','parc','quel bus','type de bus'],
+    resp: 'Flotte : 200+ bus modernes climatis\u00e9s\nMarques : OTOKAR\nNormes internationales\nGPS en temps r\u00e9el\n5 nouveaux petits bus r\u00e9cemment.',
+    qr: ['Climatisation','GPS'] },
+  { kw: ['tel','telephone','appeler','numero','joindre','numro'],
+    resp: 'Contact :\nT\u00e9l : +216 77 300 011\nEmail : contact@soretrak.com.tn\nOuvert : Lun-Ven 8h-17h',
+    qr: ['Email','Adresse'] },
+  { kw: ['email','mail','courrier','adresse mail'],
+    resp: 'Email : contact@soretrak.com.tn\nR\u00e9ponse sous 24-48h ouvrables.',
+    qr: ['T\u00e9l\u00e9phone','Contact'] },
+  { kw: ['retard','attente','attend','attendre','retard de bus'],
+    resp: 'En cas de retard :\n- T\u00e9l : +216 77 300 011\n- Pages sociales pour info',
+    qr: ['Horaires','Contact'] },
+  { kw: ['etudiant','eleve','scolaire','ecole','universite','lycee'],
+    resp: 'Tarifs \u00e9tudiants :\nScolaire : 200 DT/an\nUniversitaire : 300 DT/an\nDocuments : carte \u00e9tudiant + certificat.',
+    qr: ['Abonnements','Documents'] },
+  { kw: ['handicap','accessib','reduit','pmr','fauteuil'],
+    resp: 'Bus accessibles aux PMR.\nContact : +216 77 300 011',
+    qr: ['Contact'] },
+  { kw: ['bagage','bagages','colis','valise','livraison'],
+    resp: 'Bagages : 1 par passager (max 20 kg).\nColis/marchandises : contactez-nous.',
+    qr: ['Prix','Contact'] },
+  { kw: ['securite','surete','assurance','accident'],
+    resp: 'S\u00e9curit\u00e9 : tous nos bus assur\u00e9s.\nChauffeurs form\u00e9s et certifi\u00e9s.\nGPS temps r\u00e9el.\nUrgence : +216 77 300 011',
+    qr: ['GPS','Contact'] },
+  { kw: ['wifi','internet','connexion','reseau'],
+    resp: 'WiFi pas encore disponible.\nBient\u00f4t dans nos bus.',
+    qr: ['Services'] },
+  { kw: ['perturbation','annulation','suspendu','ferme','greve'],
+    resp: 'Perturbation : consultez notre site et pages sociales.\nT\u00e9l : +216 77 300 011.',
+    qr: ['Contact','Actualit\u00e9s'] },
+  { kw: ['rembours','annul','voyage annul'],
+    resp: 'Remboursement : m\u00eame jour en station.\nContact : +216 77 300 011.',
+    qr: ['Contact'] },
+  { kw: ['facebook','instagram','youtube','reseaux sociaux','social'],
+    resp: 'Suivez-nous sur Facebook, Instagram, YouTube.\nLiens en bas de page.',
+    qr: ['Actualit\u00e9s'] },
+  { kw: ['nouveau','nouveaute','actualite','actualites','news'],
+    resp: 'Consultez la page Actualit\u00e9s pour les derni\u00e8res nouvelles.',
+    qr: ['Lignes','Services'] },
+  { kw: ['voyage','voyager','trajet','trajets','aller retour'],
+    resp: 'Trajets quotidiens : Tunis, Sousse, Sfax, Nabeul, Bizerte...\nPremier bus : 06h00 | Dernier : 20h00.',
+    qr: ['Lignes','Prix','Horaires'] },
+  { kw: ['comment faire','comment aller','comment prendre'],
+    resp: 'Voyager avec SORETRAK :\n1. Station (Avenue Habib Bourguiba)\n2. Achetez billet\n3. Montez dans le bus\nPaiement : esp\u00e8ces.',
+    qr: ['Billets','Horaires'] },
+  { kw: ['nuit','dernier bus','derniere course','soir'],
+    resp: 'Dernier bus : 20h00. Pas de service nocturne.',
+    qr: ['Horaires'] },
+  { kw: ['matin','premier bus','premier depart','tot'],
+    resp: 'Premier bus : 06h00 tous les jours.',
+    qr: ['Dernier bus','Horaires'] },
+  { kw: ['tunis','la marsa','ariana','ben arous','manouba'],
+    resp: 'Kairouan \u2192 Tunis :\nDirect : 12 DT (~2h30)\nVia El Fahs : 10 DT (~3h)\nD\u00e9part : 06h00 puis toutes les heures.',
+    qr: ['Prix','Horaires'] },
+  { kw: ['sousse','monastir','mahdia','sahel'],
+    resp: 'Kairouan \u2192 Sousse : 8 DT (~2h)\nMonastir : 10 DT | Mahdia : 12 DT',
+    qr: ['Prix','Horaires'] },
+  { kw: ['sfax','gabes','gafsa','sud','tozeur'],
+    resp: 'Sud :\nSfax : 16 DT | Gab\u00e8s : 20 DT | Gafsa : 22 DT\nD\u00e9part : 07h00-07h30.',
+    qr: ['Prix','Horaires'] },
+  { kw: ['nabeul','hammamet','cap bon','soliman'],
+    resp: 'Kairouan \u2192 Nabeul : 14 DT\n3 trajets/jour : 06h30, 10h00, 14h00',
+    qr: ['Prix','Horaires'] },
+  { kw: ['bizerte','nord','jendouba','kef'],
+    resp: 'Nord :\nBizerte : 18 DT | El Kef : 16 DT\nD\u00e9part : 07h00-07h30.',
+    qr: ['Prix','Horaires'] },
+  { kw: ['gps','tracking','suivi','localisation','temps reel'],
+    resp: 'GPS : tous nos bus \u00e9quip\u00e9s.\nSuivi en temps r\u00e9el pour s\u00e9curit\u00e9 et ponctualit\u00e9.',
+    qr: ['S\u00e9curit\u00e9'] },
+  { kw: ['confort','siege','place','coussin'],
+    resp: 'Confort : si\u00e8ges rembourr\u00e9s, climatisation, vitres panoramiques, espace bagages.',
+    qr: ['Climatisation','Bus'] },
+  { kw: ['470','millimes','tarif interieur','tarif local'],
+    resp: 'Tarif int\u00e9rieur : 470 millimes par trajet.\nLignes locales de Kairouan.',
+    qr: ['Lignes'] },
+  { kw: ['employe','travailler','recrutement','job','embauche'],
+    resp: 'Emploi : envoyez CV \u00e0 contact@soretrak.com.tn ou pr\u00e9sentez-vous au si\u00e8ge.',
+    qr: ['Contact'] },
+  { kw: ['partenair','collabor','partenariat'],
+    resp: 'Partenaires : Minist\u00e8re des Transports, SNTT, SOGITRA, Gouvernorat.',
+    qr: ['Contact'] },
+  { kw: ['aide','help','besoin','assistant','que peux tu'],
+    resp: 'Je peux vous aider avec :\n- Horaires\n- Prix\n- Lignes\n- Abonnements\n- Contact\nPosez-moi votre question !',
+    qr: ['Horaires','Prix','Lignes','Abonnements'] },
+];
+
+const arRules = [
+  { kw: ['مرحبا','هلا','سلام','صباح','مساء','هاي','اهلا','سلام عليكم','هلا والله','مرحبت','صباح الخير','مساء الخير'],
+    resp: 'مرحباً بكم! أنا مساعد SORETRAK.\n\nيمكنني مساعدتكم بـ:\n- مواعيد الحافلات\n- الأسعار والمسارات\n- الاشتراكات\n- معلومات الاتصال\n\nاسألوني!',
+    qr: ['مواعيد','أسعار','الخطوط','اشتراكات'] },
+  { kw: ['شكرا','ممتاز','حلو','برافو','تمام','كويس','جميل','يعطيك','العافية'],
+    resp: 'الشكر لكم! يسعدنا خدمتكم. لا تترددوا في طرح أي سؤال آخر.',
+    qr: [] },
+  { kw: ['وداع','باي','مع السلامة','الى اللقاء','يلا باي'],
+    resp: 'شكراً لتواصلكم! نتمنى لكم رحلة آمنة. إلى اللقاء!',
+    qr: [] },
+  { kw: ['من انتم','عن الشركة','سوريتراك','شنو سوريتراك','.Company','الشركة'],
+    resp: 'SORETRAK = الشركة الجهوية للنقل بالقيروان.\n\nتأسست عام 1990.\n\nخدماتنا:\n- النقل بين المدن\n- النقل المدرسي والجامعي\n- نقل العملات\n- تأجير الحافلات\n\nأسطولنا: 200+ حافلة حديثة مكيفة.',
+    qr: ['الخطوط','اشتراكات','الاتصال'] },
+  { kw: ['مواعيد','ساعات','وقت','انطلاق','تبدأ','تنتهي','من كم','لحد كم','وقت العمل','يعملون'],
+    resp: 'مواعيد العمل:\nمن 06:00 صباحاً إلى 20:00 مساءً يومياً.\n\nأول حافلة: 06:00\nآخر حافلة: 20:00\n\nالمواعيد قد تتغير الجمعة والعطل.',
+    qr: ['الخطوط','السعر','الحافلة'] },
+  { kw: ['سعر','ثمن','دينار','التكلفة','كم يساوي','غالي','رخيص','شحال','شحال الثمن','باهي الثمن'],
+    resp: 'الأسعار:\nالقيروان - تونس: 12 دينار\nالقيروان - سوسة: 8 دينار\nالقيروان - صفاقس: 16 دينار\nالقيروان - نابل: 14 دينار\nالقيروان - بنزرت: 18 دينار\nالقيروان - قابس: 20 دينار\n\nالداخلي: 470 مليم.',
+    qr: ['اشتراكات','الخطوط','خصم'] },
+  { kw: ['اشتراك','مشترك','بطاقة اشتراك','اشتراك طلبة','اشتراك تلميذ','اشتراك طلاب'],
+    resp: 'الاشتراكات:\n1. المدرسي: 200 دينار/سنة\n2. الجامعي: 300 دينار/سنة\n3. التجاري: حسب الطلب\n4. نقل العملات: حسب الطلب\n\nالمستندات: بطاقة التعريف + شهادة التسجيل.',
+    qr: ['المستندات','السعر','الاتصال'] },
+  { kw: ['مستند','ورقة','وثيقة','شهادة','أ originals','صورة شمسية'],
+    resp: 'المستندات المطلوبة:\n- بطاقة التعريف (أصل + نسخة)\n- شهادة التسجيل\n- صورة شمسية\n- سجل تجاري (لتجار)\n- كشف حساب بنكي (للشركات)',
+    qr: ['اشتراكات','الاتصال'] },
+  { kw: ['تذكرة','تذاكر','حجز','شراء','كيفاش نشري','كيف نشري','نحب نمشي','نحب نحجز','نشري'],
+    resp: 'شراء التذاكر:\n1. من المحطات الرئيسية\n2. داخل الحافلة مع السائق\n\nالدفع: نقداً فقط.\nلا يوجد حجز إلكتروني حالياً.',
+    qr: ['مواعيد','السعر','الخطوط'] },
+  { kw: ['شكوى','شكاوى','مشكلة','خدمة عملاء','ما عجبني','خدمتكم خايبة','سيء'],
+    resp: 'شكاوى وشكاوى:\n- الهاتف: +216 77 300 011\n- البريد: contact@soretrak.com.tn\n- نموذج الاتصال على الموقع\n\nنعالج كل شكوى خلال 48 ساعة.',
+    qr: ['الاتصال','البريد'] },
+  { kw: ['مكيف','تكييف','حرارة','الحر','بارد','برد','جاي بالبرد','تبرد'],
+    resp: 'نعم، جميع الحافلات مكيفة وفقاً للمواصفات الدولية.',
+    qr: ['الحافلة','الراحة'] },
+  { kw: ['نقدي','دفع','الدفع','موبايل','كرت','شيك','بنك','بطاقة'],
+    resp: 'الدفع: نقداً فقط.\nداخل الحافلات أو المحطات.\n\nالدفع الإلكتروني قريباً.',
+    qr: ['السعر','اشتراكات'] },
+  { kw: ['مسار','خط','وجهة','الى','من القيروان','ينجم يمشي','وقين يوصل','ينجم يوصل','وين يمشي'],
+    resp: 'الخطوط الرئيسية:\nالقيروان - تونس (يومي)\nالقيروان - سوسة (يومي)\nالقيروان - صفاقس (يومي)\nالقيروان - نابل (3 رحلات)\nالقيروان - بنزرت',
+    qr: ['مواعيد','السعر','الداخلي'] },
+  { kw: ['داخلي','حومة',' Quartier','محلي','العمارات','حي النور','حي النصر','باب الجديد'],
+    resp: 'الخطوط الداخلية:\n1. العمارات - حي محمد علي - المنطقة الصناعية\n2. حي النور - المنصورة\n3. العمارات - مستشفى الأغالبة\n4. حي النصر - باب الجديد - المحكمة\n\nالسعر: 470 مليم.',
+    qr: ['الخطوط','السعر'] },
+  { kw: ['مقر','عنوان','مكان','وين','فين','وين المقر','العنوان'],
+    resp: 'المقر: شارع الحبيب بورقيبة - القيروان\nالهاتف: +216 77 300 011\nالبريد: contact@soretrak.com.tn\nالعمل: الإثنين-الجمعة 8-17',
+    qr: ['الهاتف','البريد','الاتصال'] },
+  { kw: ['حافلة','باص','باصات','автобус','car'],
+    resp: 'أسطولنا: 200+ حافلة حديثة مكيفة OTOKAR.\nمطابقة للمواصفات الدولية.\nGPS. 5 حافلات صغيرة جديدة.',
+    qr: ['التكييف','GPS'] },
+  { kw: ['تيليفون','هاتف','نمرة','نمبر','اتصل','رنّي','كلمني','الهاتف'],
+    resp: 'اتصلوا بنا:\nالهاتف: +216 77 300 011\nالبريد: contact@soretrak.com.tn',
+    qr: ['البريد','المقر'] },
+  { kw: ['طالبة','طالب','تلميذ','تلميزة','مدرسة','جامعة','دراسة','المدرسة'],
+    resp: 'اشتراكات مخفضة:\nالمدرسي: 200 دينار/سنة\nالجامعي: 300 دينار/سنة\nمن مقراتنا بالقيروان.',
+    qr: ['اشتراكات','المستندات'] },
+  { kw: ['شحال','شحال الحساب','شحال يساوي'],
+    resp: 'الأسعار:\nتونس: 12 دينار\nسوسة: 8 دينار\nصفاقس: 16 دينار\nنابل: 14 دينار\nبنزرت: 18 دينار',
+    qr: ['الخطوط'] },
+  { kw: ['متى','وقتاش','وقتاش يبدا','وقتاش يكمل'],
+    resp: 'الخدمة: 06:00 صباحاً إلى 20:00 مساءً يومياً.',
+    qr: ['مواعيد','الحافلة'] },
+  { kw: ['وين','فين','شحال العنوان'],
+    resp: 'المقر: شارع الحبيب بورقيبة - القيروان\nهاتف: +216 77 300 011',
+    qr: ['الهاتف','البريد'] },
+  { kw: ['باص لتونس','حافلة لتونس','باص سوسة','حافلة سوسة','باص صفاقس'],
+    resp: 'نعم، خطوط يومية لتونس وسوسة وصفاقس.\nصفحة الخطوط للتفاصيل.',
+    qr: ['السعر','مواعيد'] },
+  { kw: ['متوقف','معلق','مش شغال','ما يخدمش'],
+    resp: 'في حالة التوقف: الاتصال على +216 77 300 011.',
+    qr: ['الاتصال'] },
+  { kw: ['كيفاش','كيف نعمل','شنية الطريقة','كيف نمشي'],
+    resp: 'للسفر معنا:\n1. المحطة (شارع الحبيب بورقيبة)\n2. اشترِ التذكرة\n3. اركب الحافلة\nالدفع: نقداً.',
+    qr: ['التذاكر','مواعيد'] },
+  { kw: ['تمام','اوك','تم','حسن','جيد'],
+    resp: 'تمام! لا تترددوا في طرح أي سؤال آخر.',
+    qr: [] },
+  { kw: ['شنو','شنيه','شناه','شو','شن'],
+    resp: 'يمكنني مساعدتكم بـ:\n- مواعيد الحافلات\n- الأسعار\n- الخطوط\n- الاشتراكات\n- معلومات الاتصال\nاسألوني!',
+    qr: ['مواعيد','السعر','الخطوط'] },
+  { kw: ['فيسبوك','انستغرام','يوتيوب','سوشيال ميديا','social'],
+    resp: 'تابعونا على فيسبوك وإنستغرام ويوتيوب.',
+    qr: ['أخبار'] },
+  { kw: ['جديد','أخبار','اخبار','آخر أخبار','احدث','news'],
+    resp: 'زوروا صفحة الأخبار للمتابعة.',
+    qr: ['الخطوط','الخدمات'] },
+  { kw: ['تونس','سوسة','صفاقس','نابل','بنزرت','الكاف','المهدية','قابس'],
+    resp: 'نعم، نوفر خطوطاً لهذه المدن!\nصفحة الخطوط للجدول والأسعار.',
+    qr: ['السعر','مواعيد'] },
+  { kw: ['رحلة','نحب نمشي','valise','سافر'],
+    resp: 'رحلات يومية من القيروان.\nأول رحلة: 06:00.\nصفحة الخطوط.',
+    qr: ['الخطوط','السعر'] },
+  { kw: ['wa9ef','wa9a3','station','محطة'],
+    resp: 'المحطة الرئيسية: شارع الحبيب بورقيبة - القيروان.\nهاتف: +216 77 300 011.',
+    qr: ['الهاتف','العنوان'] },
+  { kw: ['تاريخ','تاريخ الشركة','متى تأسست'],
+    resp: 'تأسست SORETRAK عام 1990.\nمقرها القيروان.\nتخدم ملايين الركاب سنوياً.',
+    qr: ['الخدمات','الخطوط'] },
+  { kw: ['handicap','pmr','محرجة','م残疾人'],
+    resp: 'بعض حافلاتنا مجهزة لذوي الحركة.\nللاستفسار: +216 77 300 011.',
+    qr: ['الاتصال'] },
+  { kw: ['amane','securite','accident','insurance'],
+    resp: 'السلامة أولوية. جميع الحافلات مؤمّنة.\nالسائقون مؤهلون.\nطوارئ: +216 77 300 011.',
+    qr: ['GPS','الاتصال'] },
+  { kw: ['wifi','internet','نت','conection'],
+    resp: 'خدمة WiFi ليست متوفرة حالياً.\nقريباً إن شاء الله.',
+    qr: ['الخدمات'] },
+  { kw: ['الغاء','تعطيل','mouche','معلق'],
+    resp: 'في حالة الإلغاء: تابعونا على الموقع والسوشيال.\nاتصلوا بنا: +216 77 300 011.',
+    qr: ['الاتصال','أخبار'] },
+  { kw: ['برشا','yemchekh','bech','besh','باش'],
+    resp: 'يمكنني مساعدتكم! اسألوني عن أي شيء.',
+    qr: ['مواعيد','السعر','الخطوط'] },
+];
+
+function getDefaultResponse(lang) {
+  if (lang === 'fr') {
+    return 'Je ne suis pas s\u00fbr de comprendre. Essayez de me demander :\n\n- Horaires des bus\n- Prix par ligne\n- Abonnements\n- Nos lignes\n- Contact\n\nOu appelez-nous : +216 77 300 011';
+  }
+  return 'لم أفهم طلبكم جيداً. يمكنني مساعدتكم بـ:\n\n- مواعيد الحافلات\n- الأسعار\n- الخطوط\n- الاشتراكات\n- الاتصال\n\nأو اتصلوا بنا: +216 77 300 011';
 }
 
 async function findFaqMatch(message, language) {
@@ -281,18 +308,15 @@ async function findFaqMatch(message, language) {
     let bestMatch = null;
     let bestScore = 0;
     for (const faq of faqs) {
-      const question = language === 'ar' ? normalizeAr(faq.questionAr) : normalizeFr(faq.questionFr);
-      const words = question.split(/\s+/).filter(function(w) { return w.length > 1; });
+      const q = language === 'ar' ? normalizeAr(faq.questionAr) : normalizeFr(faq.questionFr);
+      const words = q.split(/\s+/).filter(function(w) { return w.length > 2; });
       let score = 0;
       for (const word of words) {
         if (lower.indexOf(word) !== -1) score++;
       }
-      if (score > bestScore) {
-        bestScore = score;
-        bestMatch = faq;
-      }
+      if (score > bestScore) { bestScore = score; bestMatch = faq; }
     }
-    if (bestMatch && bestScore >= 1) {
+    if (bestMatch && bestScore >= 2) {
       return language === 'ar' ? bestMatch.answerAr : bestMatch.answerFr;
     }
   } catch (e) {
@@ -301,39 +325,33 @@ async function findFaqMatch(message, language) {
   return null;
 }
 
-function getDefaultResponse(language) {
-  if (language === 'ar') {
-    return 'شكراً لتواصلكم! أنا مساعد SORETRAK.\n\nيمكنني مساعدتكم بـ:\n- مواعيد الحافلات\n- الأسعار وال.tarifs\n- الخطوط والمسارات\n- الاشتراكات\n- معلومات الاتصال\n\nاسألوني أو اتصلوا بنا على +216 77 300 011';
-  }
-  return 'Merci de nous contacter ! Je suis l\'assistant SORETRAK.\n\nJe peux vous aider avec :\n- Les horaires des bus\n- Les prix et tarifs\n- Les lignes et itinéraires\n- Les abonnements\n- Les coordonnées\n\nPosez-moi une question ou appelez-nous au +216 77 300 011';
-}
-
 router.post('/', async function(req, res) {
   try {
     const { message, sessionId, language } = req.body;
-    if (!message) {
-      return res.status(400).json({ error: 'Message is required' });
-    }
+    if (!message) return res.status(400).json({ error: 'Message is required' });
     const lang = language || 'ar';
     const session = sessionId || 'session_' + Date.now();
-    let response = findSmartResponse(message, lang);
+    let rule = findBestRule(message, lang);
+    let response = null;
+    let quickReplies = [];
+    if (rule) {
+      response = rule.resp;
+      quickReplies = rule.qr || [];
+    }
     if (!response) {
       response = await findFaqMatch(message, lang);
     }
     if (!response) {
       response = getDefaultResponse(lang);
+      quickReplies = lang === 'fr'
+        ? ['Horaires', 'Prix', 'Lignes', 'Abonnements']
+        : ['مواعيد', 'أسعار', 'الخطوط', 'اشتراكات'];
     }
     try {
-      await prisma.chatMessage.create({
-        data: { sessionId: session, role: 'user', content: message, language: lang }
-      });
-      await prisma.chatMessage.create({
-        data: { sessionId: session, role: 'assistant', content: response, language: lang }
-      });
-    } catch (e) {
-      console.error('Chat save error:', e);
-    }
-    res.json({ response: response, sessionId: session });
+      await prisma.chatMessage.create({ data: { sessionId: session, role: 'user', content: message, language: lang } });
+      await prisma.chatMessage.create({ data: { sessionId: session, role: 'assistant', content: response, language: lang } });
+    } catch (e) { console.error('Chat save error:', e); }
+    res.json({ response: response, quickReplies: quickReplies, sessionId: session });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });

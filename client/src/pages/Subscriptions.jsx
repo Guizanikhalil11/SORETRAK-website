@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { GraduationCap, Building2, CreditCard, Download, FileText, Loader2, CheckCircle } from 'lucide-react'
 import SectionTitle from '../components/SectionTitle'
 import axios from 'axios'
@@ -103,9 +104,12 @@ export default function Subscriptions() {
                         <p className="text-xs text-gray-500">{getReqs(subData)}</p>
                       </div>
                     )}
-                    <button className="w-full bg-gradient-to-r from-secondary to-secondary-dark text-white py-2.5 rounded-xl font-medium hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5">
+                    <Link
+                      to="/contact"
+                      className="block w-full bg-gradient-to-r from-secondary to-secondary-dark text-white py-2.5 rounded-xl font-medium text-center hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5"
+                    >
                       {t('subscriptions.applyNow')}
-                    </button>
+                    </Link>
                   </div>
                 )
               })}
@@ -118,21 +122,31 @@ export default function Subscriptions() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle title={t('subscriptions.downloadForms')} />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {['school', 'university', 'commercial'].map((type) => (
+            {[
+              { type: 'school', file: '/forms/school-subscription.html' },
+              { type: 'university', file: '/forms/university-subscription.html' },
+              { type: 'commercial', file: '/forms/commercial-subscription.html' },
+            ].map((form) => (
               <div
-                key={type}
+                key={form.type}
                 className="bg-white rounded-2xl p-6 shadow-sm flex items-center gap-4 hover:shadow-xl transition-all duration-300 border border-gray-100 group"
               >
                 <div className="w-12 h-12 bg-gradient-to-br from-secondary/10 to-secondary/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-secondary group-hover:to-secondary-dark transition-all duration-300">
                   <FileText className="w-6 h-6 text-secondary group-hover:text-white transition-colors" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-dark">{t(`subscriptions.${type}.title`)}</h4>
-                  <p className="text-sm text-gray-500">PDF</p>
+                  <h4 className="font-bold text-dark">{t(`subscriptions.${form.type}.title`)}</h4>
+                  <p className="text-sm text-gray-500">PDF - {lang === 'fr' ? 'Imprimer / Sauvegarder' : 'طباعة / حفظ'}</p>
                 </div>
-                <button className="p-2.5 text-secondary hover:bg-secondary-light rounded-xl transition-colors">
+                <a
+                  href={form.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 text-secondary hover:bg-secondary-light rounded-xl transition-colors hover:scale-110"
+                  title={lang === 'fr' ? 'Télécharger' : 'تحميل'}
+                >
                   <Download className="w-5 h-5" />
-                </button>
+                </a>
               </div>
             ))}
           </div>

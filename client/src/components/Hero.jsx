@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { Search, MapPin, Calendar, Bus, Route, Users, Clock, ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import StatCard from './StatCard'
@@ -14,13 +15,18 @@ const tunisianCities = [
 
 export default function Hero() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [date, setDate] = useState('')
 
   const handleSearch = (e) => {
     e.preventDefault()
-    alert(`Searching: ${from} → ${to} on ${date}`)
+    const params = new URLSearchParams()
+    if (from) params.set('from', from)
+    if (to) params.set('to', to)
+    if (date) params.set('date', date)
+    navigate(`/routes?${params.toString()}`)
   }
 
   const stats = [
