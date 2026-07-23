@@ -1,11 +1,16 @@
 import { useTranslation } from 'react-i18next'
 import { Target, Eye, Heart, Calendar, Users, Bus, TrendingUp } from 'lucide-react'
 import SectionTitle from '../components/SectionTitle'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export default function About() {
   const { t, i18n } = useTranslation()
 
   const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
+
+  const aboutIntroRef = useScrollReveal()
+  const timelineRef = useScrollReveal()
+  const missionRef = useScrollReveal()
 
   const stats = [
     { icon: Bus, value: '200+', label: t('home.stats.buses') },
@@ -50,10 +55,10 @@ export default function About() {
         </div>
       </div>
 
-      <section className="py-24 bg-white">
+      <section ref={aboutIntroRef} className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-slideInLeft">
+            <div>
               <span className="inline-block bg-secondary-light text-secondary text-xs font-bold px-4 py-2 rounded-full mb-4">{t('about.whoWeAre')}</span>
               <h2 className="text-3xl font-bold text-dark mb-6">{t('about.heroSubtitle').includes('histoire') ? 'Qui Sommes-Nous?' : 'من نحن؟'}</h2>
               <p className="text-gray-600 leading-relaxed mb-4">{t('about.whoWeAreText')}</p>
@@ -76,7 +81,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-24 bg-light relative overflow-hidden">
+      <section ref={timelineRef} className="py-24 bg-light relative overflow-hidden">
         <div className="absolute top-10 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionTitle title={t('about.history')} />
@@ -104,7 +109,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section ref={missionRef} className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { GraduationCap, Bus, DollarSign, KeyRound, Shield, Heart, Globe, CheckCircle, ArrowRight, Star, Zap, Award, Quote } from 'lucide-react'
 import Hero from '../components/Hero'
 import SectionTitle from '../components/SectionTitle'
+import { useScrollReveal, useStaggerReveal } from '../hooks/useScrollReveal'
 import axios from 'axios'
 
 export default function Home() {
@@ -14,6 +15,14 @@ export default function Home() {
   const lang = i18n.language?.startsWith('fr') ? 'fr' : 'ar'
   const getTitle = (item) => lang === 'fr' ? (item.titleFr || item.titleAr || '') : (item.titleAr || item.titleFr || '')
   const getContent = (item) => lang === 'fr' ? (item.contentFr || item.contentAr || '') : (item.contentAr || item.contentFr || '')
+
+  const servicesRef = useScrollReveal()
+  const routesRef = useScrollReveal()
+  const newsRef = useScrollReveal()
+  const testimonialsRef = useScrollReveal()
+  const partnersRef = useScrollReveal()
+  const featuresRef = useScrollReveal()
+  const ctaRef = useScrollReveal()
 
   useEffect(() => {
     axios.get('/api/news?limit=3').then(res => setNews(res.data.news || res.data || [])).catch(() => {})
@@ -38,7 +47,7 @@ export default function Home() {
     <div>
       <Hero />
 
-      <section className="py-24 bg-white relative">
+      <section ref={servicesRef} className="py-24 bg-white relative">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary/10 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle title={t('home.servicesTitle')} subtitle={t('home.servicesSubtitle')} />
@@ -46,7 +55,7 @@ export default function Home() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:-translate-y-2 group"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:-translate-y-2 group hover-lift"
               >
                 <div className="h-44 overflow-hidden relative">
                   <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -66,7 +75,7 @@ export default function Home() {
       </section>
 
       {routes.length > 0 && (
-        <section className="py-24 bg-light relative overflow-hidden">
+        <section ref={routesRef} className="py-24 bg-light relative overflow-hidden">
           <div className="absolute top-10 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
           <div className="absolute bottom-10 left-10 w-72 h-72 bg-secondary/5 rounded-full blur-3xl" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -118,7 +127,7 @@ export default function Home() {
       )}
 
       {news.length > 0 && (
-        <section className="py-24 bg-white">
+        <section ref={newsRef} className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionTitle title={t('home.newsTitle')} subtitle={t('home.newsSubtitle')} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -150,7 +159,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section ref={testimonialsRef} className="py-24 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionTitle
@@ -193,7 +202,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-light">
+      <section ref={partnersRef} className="py-16 bg-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             title={lang === 'fr' ? 'Nos Partenaires' : 'شركاؤنا'}
@@ -214,7 +223,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-24 bg-light relative overflow-hidden">
+      <section ref={featuresRef} className="py-24 bg-light relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <SectionTitle title={t('home.whyTitle')} subtitle={t('home.whySubtitle')} />
@@ -235,7 +244,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-24 bg-gradient-to-r from-primary via-primary-dark to-dark relative overflow-hidden">
+      <section ref={ctaRef} className="py-24 bg-gradient-to-r from-primary via-primary-dark to-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full mb-6 backdrop-blur-sm">
