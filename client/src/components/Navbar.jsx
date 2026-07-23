@@ -7,8 +7,13 @@ const navLinks = [
   { key: 'home', path: '/' },
   { key: 'about', path: '/about' },
   { key: 'activities', path: '/activities' },
-  { key: 'routes', path: '/routes' },
+  { key: 'routes', path: '/routes', children: [
+    { key: 'schoolTariffs', path: '/school-tariffs' },
+    { key: 'commercialTariffs', path: '/commercial-tariffs' },
+  ]},
   { key: 'news', path: '/news' },
+  { key: 'tenders', path: '/tenders' },
+  { key: 'partners', path: '/partners' },
   { key: 'faq', path: '/faq' },
   { key: 'contact', path: '/contact' },
 ]
@@ -17,6 +22,7 @@ export default function Navbar() {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState(null)
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const lastScrollY = useRef(0)
@@ -74,17 +80,43 @@ export default function Navbar() {
 
             <div className="hidden lg:flex items-center gap-0.5">
               {navLinks.map((link) => (
-                <Link
+                <div
                   key={link.key}
-                  to={link.path}
-                  className={`px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-lg relative ${
-                    location.pathname === link.path
-                      ? 'text-white bg-primary shadow-md'
-                      : 'text-gray-700 hover:text-secondary hover:bg-secondary-light'
-                  }`}
+                  className="relative"
+                  onMouseEnter={() => link.children && setOpenDropdown(link.key)}
+                  onMouseLeave={() => link.children && setOpenDropdown(null)}
                 >
-                  {t(`nav.${link.key}`)}
-                </Link>
+                  <Link
+                    to={link.path}
+                    className={`px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-lg relative flex items-center gap-1 ${
+                      location.pathname === link.path
+                        ? 'text-white bg-primary shadow-md'
+                        : 'text-gray-700 hover:text-secondary hover:bg-secondary-light'
+                    }`}
+                  >
+                    {t(`nav.${link.key}`)}
+                    {link.children && (
+                      <svg className={`w-3 h-3 transition-transform duration-200 ${openDropdown === link.key ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                    )}
+                  </Link>
+                  {link.children && openDropdown === link.key && (
+                    <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-100 py-2 min-w-[200px] z-50 animate-fadeIn">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.key}
+                          to={child.path}
+                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                            location.pathname === child.path
+                              ? 'text-white bg-gradient-to-r from-primary to-primary-dark'
+                              : 'text-gray-700 hover:bg-secondary-light hover:text-secondary'
+                          }`}
+                        >
+                          {t(`nav.${child.key}`)}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
 
@@ -119,17 +151,31 @@ export default function Navbar() {
           <div className="lg:hidden bg-white border-t border-gray-100 shadow-xl animate-fadeIn">
             <div className="px-4 py-3 space-y-1">
               {navLinks.map((link) => (
-                <Link
-                  key={link.key}
-                  to={link.path}
-                  className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    location.pathname === link.path
-                      ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-md'
-                      : 'text-gray-700 hover:bg-secondary-light hover:text-secondary'
-                  }`}
-                >
-                  {t(`nav.${link.key}`)}
-                </Link>
+                <div key={link.key}>
+                  <Link
+                    to={link.path}
+                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      location.pathname === link.path
+                        ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-md'
+                        : 'text-gray-700 hover:bg-secondary-light hover:text-secondary'
+                    }`}
+                  >
+                    {t(`nav.${link.key}`)}
+                  </Link>
+                  {link.children && link.children.map((child) => (
+                    <Link
+                      key={child.key}
+                      to={child.path}
+                      className={`block px-8 py-2.5 rounded-xl text-sm transition-all duration-200 ${
+                        location.pathname === child.path
+                          ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-md'
+                          : 'text-gray-500 hover:bg-secondary-light hover:text-secondary'
+                      }`}
+                    >
+                      {t(`nav.${child.key}`)}
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
           </div>

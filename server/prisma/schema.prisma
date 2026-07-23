@@ -127,3 +127,38 @@ model Subscriber {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }
+
+model Partner {
+  id        Int      @id @default(autoincrement())
+  nameAr    String
+  nameFr    String
+  url       String
+  logo      String?
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tender {
+  id          Int      @id @default(autoincrement())
+  titleAr     String
+  titleFr     String
+  contentAr   String
+  contentFr   String
+  category    String
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SchoolTariff {
+  id            Int      @id @default(autoincrement())
+  lineAr        String
+  lineFr        String
+  price         Float
+  descriptionAr String?
+  descriptionFr String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

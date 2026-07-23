@@ -46,7 +46,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-5 text-white">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
-              {['home', 'about', 'activities', 'routes', 'news', 'contact'].map((key) => (
+              {['home', 'about', 'activities', 'routes', 'news', 'tenders', 'partners', 'contact'].map((key) => (
                 <li key={key}>
                   <Link
                     to={`/${key === 'home' ? '' : key}`}
@@ -95,30 +95,26 @@ export default function Footer() {
               {t('about.heroSubtitle').includes('histoire') ? 'Nos Partenaires' : 'شركاؤنا'}
             </h3>
             <ul className="space-y-3">
-              <li>
-                <a href="https://www.transports.gov.tn" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 bg-secondary rounded-full" />
-                  {t('about.heroSubtitle').includes('histoire') ? 'Ministère des Transports' : 'وزارة النقل'}
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-secondary transition-colors" />
-                  {t('about.heroSubtitle').includes('histoire') ? 'SNTT' : 'الشركة الوطنية للنقل بالتنقل'}
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-secondary transition-colors" />
-                  {t('about.heroSubtitle').includes('histoire') ? 'SOGITRA' : 'شركة النقل الجماعي'}
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-secondary transition-colors" />
-                  {t('about.heroSubtitle').includes('histoire') ? 'Lignes de Kairouan' : 'خطوط القيروان'}
-                </a>
-              </li>
+              {[
+                { fr: 'Ministère des Transports', ar: 'وزارة النقل', url: 'https://www.transports.gov.tn', external: true },
+                { fr: 'SNTT', ar: 'الشركة الوطنية للنقل بالتنقل', url: '#' },
+                { fr: 'SOGITRA', ar: 'شركة النقل الجماعي', url: '#' },
+                { fr: 'Lignes de Kairouan', ar: 'خطوط القيروان', url: '#' },
+              ].map((partner, i) => (
+                <li key={i}>
+                  {partner.external ? (
+                    <a href={partner.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                      <span className="w-1.5 h-1.5 bg-secondary rounded-full" />
+                      {partner.fr}
+                    </a>
+                  ) : (
+                    <Link to="/partners" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-secondary transition-colors" />
+                      {partner.fr}
+                    </Link>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

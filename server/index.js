@@ -29,6 +29,9 @@ app.use('/api/contact', require('./routes/contact'));
 app.use('/api/chatbot', require('./routes/chatbot'));
 app.use('/api/settings', require('./routes/settings'));
 app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/partners', require('./routes/partners'));
+app.use('/api/tenders', require('./routes/tenders'));
+app.use('/api/school-tariffs', require('./routes/schoolTariffs'));
 
 const clientBuildPath = path.join(__dirname, '..', 'client', 'dist');
 if (fs.existsSync(clientBuildPath)) {

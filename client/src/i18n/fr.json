@@ -8,6 +8,10 @@
     "news": "Actualités",
     "faq": "FAQ",
     "contact": "Contact",
+    "tenders": "Appels d'offres",
+    "partners": "Partenaires",
+    "schoolTariffs": "Tarifs Scolaires",
+    "commercialTariffs": "Tarifs Commerciaux",
     "admin": "Administration"
   },
   "home": {
@@ -238,6 +242,28 @@
     "of": "sur",
     "yes": "Oui",
     "no": "Non"
+  },
+  "tenders": {
+    "title": "Appels d'offres",
+    "heroSubtitle": "Suivez les derniers appels d'offres, offres d'emploi et consultations",
+    "categories": {
+      "tenders": "Avis d'appel d'offre",
+      "consultation": "Avis de consultation",
+      "jobs": "Offres d'emploi",
+      "other": "Avis divers"
+    }
+  },
+  "partners": {
+    "title": "Nos Partenaires",
+    "heroSubtitle": "Découvrez nos partenaires de transport à travers la Tunisie"
+  },
+  "schoolTariffs": {
+    "title": "Tarifs Scolaires",
+    "heroSubtitle": "Consultez les tarifs de transport scolaire"
+  },
+  "commercialTariffs": {
+    "title": "Tarifs Commerciaux",
+    "heroSubtitle": "Consultez les tarifs et horaires des lignes commerciales interurbaines"
   },
   "admin": {
     "login": {

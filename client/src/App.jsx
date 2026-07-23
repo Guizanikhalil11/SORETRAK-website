@@ -16,6 +16,10 @@ import News from './pages/News'
 import NewsDetail from './pages/NewsDetail'
 import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
+import Tenders from './pages/Tenders'
+import Partners from './pages/Partners'
+import SchoolTariffs from './pages/SchoolTariffs'
+import CommercialTariffs from './pages/CommercialTariffs'
 import NotFound from './pages/NotFound'
 
 import AdminLayout from './pages/admin/AdminLayout'
@@ -62,6 +66,10 @@ export default function App() {
         <Route path="/news/:id" element={<PublicLayout><NewsDetail /></PublicLayout>} />
         <Route path="/faq" element={<PublicLayout><FAQ /></PublicLayout>} />
         <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+        <Route path="/tenders" element={<PublicLayout><Tenders /></PublicLayout>} />
+        <Route path="/partners" element={<PublicLayout><Partners /></PublicLayout>} />
+        <Route path="/school-tariffs" element={<PublicLayout><SchoolTariffs /></PublicLayout>} />
+        <Route path="/commercial-tariffs" element={<PublicLayout><CommercialTariffs /></PublicLayout>} />
         <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
 
         <Route path="/admin/login" element={<AdminLogin />} />

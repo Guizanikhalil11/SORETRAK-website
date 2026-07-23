@@ -17,6 +17,9 @@ async function main() {
   await prisma.setting.deleteMany();
   await prisma.subscriber.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.partner.deleteMany();
+  await prisma.tender.deleteMany();
+  await prisma.schoolTariff.deleteMany();
 
   // Create admin user
   const hashedPassword = await bcrypt.hash('admin123', 10);
@@ -643,6 +646,52 @@ async function main() {
     await prisma.setting.create({ data: setting });
   }
   console.log('Settings created');
+
+  // Create partners
+  const partnersData = [
+    { nameAr: 'الشركة الجهوية للنقل بالساحل', nameFr: 'Société des Transports du Sahel', url: 'http://www.stsahel.com.tn', logo: null, order: 1, active: true },
+    { nameAr: 'الشركة الجهوية للنقل بنابل', nameFr: 'Société Régionale de Transport de Nabeul', url: 'http://www.srtgn.com.tn', logo: null, order: 2, active: true },
+    { nameAr: 'الشركة الجهوية للنقل بقابس', nameFr: 'Société des Transports Régionaux de Gabès', url: 'http://www.sotregames.com.tn', logo: null, order: 3, active: true },
+    { nameAr: 'الشركة الجهوية للنقل ببنزرت', nameFr: 'Société Régionale de Transport de Bizerte', url: 'http://www.srtbizerte.com.tn', logo: null, order: 4, active: true },
+    { nameAr: 'الشركة الوطنية للنقل بين المدن', nameFr: 'Société Nationale de Transport Intercité', url: 'http://www.sntri.com.tn', logo: null, order: 5, active: true },
+  ];
+
+  for (const p of partnersData) { await prisma.partner.create({ data: p }); }
+  console.log('Partners created');
+
+  // Create tenders
+  const tendersData = [
+    { titleAr: 'عرض شراء 6 حافلات مكيفة', titleFr: 'Offre d\'achat de 6 bus climatisés', contentAr: 'تعلن الشركة الجهوية للنقل بالقيروان عن فتح عروض لشراء 6 حافلات مكيفة مخصصة للنقل بين الولايات في إطار برنامج الاستثمار 2023-2025.', contentFr: 'La SORETRAK annonce l\'ouverture des offres pour l\'achat de 6 bus climatisés destinés au transport interurbain dans le cadre du programme d\'investissement 2023-2025.', category: 'tenders', publishedAt: new Date('2024-12-01') },
+    { titleAr: 'استشارة لإعداد دراسة تقنية', titleFr: 'Consultation pour étude technique', contentAr: 'تطلب الشركة استشارة لإعداد دراسة تقنية حول تحديث نظام النقل الذكي تشمل تركيب كاميرات مراقبة وأنظمة GPS جديدة.', contentFr: 'La société sollicite une consultation pour réaliser une étude technique sur la modernisation du système de transport intelligent comprenant l\'installation de caméras et de nouveaux systèmes GPS.', category: 'consultation', publishedAt: new Date('2024-11-15') },
+    { titleAr: 'عرض شغل: سائقون حافلات', titleFr: 'Offre d\'emploi: Chauffeurs de bus', contentAr: 'تعلن الشركة عن حاجتها لـ 10 سائقين حافلات حاصلين على رخصة سياقة من فئة D. الراتب: 1200 دينار شهرياً.', contentFr: 'La société recherche 10 chauffeurs de bus titulaires d\'un permis de catégorie D. Salaire: 1200 dinars par mois.', category: 'jobs', publishedAt: new Date('2024-10-01') },
+    { titleAr: 'عرض إيجار ورشة صيانة', titleFr: 'Offre de location d\'atelier de maintenance', contentAr: 'تريد الشركة استئجار ورشة صيانة بمساحة لا تقل عن 500 متر مربع بالقيروان لصيانة أسطول الحافلات.', contentFr: 'La société souhaite louer un atelier de maintenance d\'une superficie minimale de 500 m² à Kairouan pour l\'entretien de sa flotte de bus.', category: 'other', publishedAt: new Date('2024-09-01') },
+  ];
+
+  for (const t of tendersData) { await prisma.tender.create({ data: t }); }
+  console.log('Tenders created');
+
+  // Create school tariffs
+  const schoolTariffsData = [
+    { lineAr: 'العمارات – حي محمد علي – المنطقة الصناعية', lineFr: 'Les Immeubles - Hay Mohamed Ali - Zone Industrielle', price: 0.470, descriptionAr: 'تعريفة داخلية', descriptionFr: 'Tarif intérieur' },
+    { lineAr: 'حي النور – حي محمد علي – المنصورة', lineFr: 'Hay Ennour - Hay Mohamed Ali - El Mansoura', price: 0.470, descriptionAr: 'تعريفة داخلية', descriptionFr: 'Tarif intérieur' },
+    { lineAr: 'العمارات – حي محمد علي – مستشفى الأغالبة – العمارات', lineFr: 'Les Immeubles - Hay Mohamed Ali - Hôpital Aghaliba - Les Immeubles', price: 0.470, descriptionAr: 'تعريفة داخلية', descriptionFr: 'Tarif intérieur' },
+    { lineAr: 'العمارات – حي محمد علي – الولاية – المحكمة', lineFr: 'Les Immeubles - Hay Mohamed Ali - Gouvernorat - Tribunal', price: 0.470, descriptionAr: 'تعريفة داخلية', descriptionFr: 'Tarif intérieur' },
+    { lineAr: 'حي النصر – التجهيز – باب الجديد – الرحبة – الولاية – المحكمة', lineFr: 'Hay Ennasser - Equipement - Bab El Jadid - Er Rihana - Gouvernorat - Tribunal', price: 0.470, descriptionAr: 'تعريفة داخلية', descriptionFr: 'Tarif intérieur' },
+    { lineAr: 'حي النصر – السيد – باب الجديد – مستشفى الأغالبة', lineFr: 'Hay Ennasser - Es Sied - Bab El Jadid - Hôpital Aghaliba', price: 0.470, descriptionAr: 'تعريفة داخلية', descriptionFr: 'Tarif intérieur' },
+    { lineAr: 'سبيخة – القيروان', lineFr: 'Sbikha - Kairouan', price: 2.500, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'بوجبال – القيروان', lineFr: 'Bouhajla - Kairouan', price: 3.000, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'شراردة – القيروان', lineFr: 'Chrarda - Kairouan', price: 3.500, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'العلاء – القيروان', lineFr: 'El Alâa - Kairouan', price: 4.000, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'شبيكة – القيروان', lineFr: 'Chebika - Kairouan', price: 4.500, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'حفوز – القيروان', lineFr: 'Haffouz - Kairouan', price: 5.000, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'القصرين – القيروان', lineFr: 'Kasserine - Kairouan', price: 6.000, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'الشريقي – القيروان', lineFr: 'El Chorji - Kairouan', price: 3.000, descriptionAr: 'خط مدرسي', descriptionFr: 'Ligne scolaire' },
+    { lineAr: 'القيروان – سوسة (طلبة)', lineFr: 'Kairouan - Sousse (Étudiants)', price: 8.000, descriptionAr: 'تعريفة طلبة', descriptionFr: 'Tarif étudiants' },
+    { lineAr: 'القيروان – تونس (طلبة)', lineFr: 'Kairouan - Tunis (Étudiants)', price: 12.000, descriptionAr: 'تعريفة طلبة', descriptionFr: 'Tarif étudiants' },
+  ];
+
+  for (const s of schoolTariffsData) { await prisma.schoolTariff.create({ data: s }); }
+  console.log('School tariffs created');
 
   console.log('Database seeded successfully!');
 }
