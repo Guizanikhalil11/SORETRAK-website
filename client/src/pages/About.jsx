@@ -41,11 +41,11 @@ export default function About() {
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-15" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center animate-fadeInUp">
-            <span className="inline-flex items-center gap-2 bg-secondary/20 text-secondary text-xs font-bold px-4 py-2 rounded-full mb-4 border border-secondary/30">
+            <span className="inline-flex items-center gap-2 bg-secondary/15 text-secondary text-xs font-bold px-5 py-2.5 rounded-full mb-4 border border-secondary/25 backdrop-blur-sm">
               <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
               {t('about.heroSubtitle').includes('histoire') ? 'République Tunisienne - Ministère des Transports' : 'جمهورية تونس - وزارة النقل'}
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
               {t('about.heroSubtitle').includes('histoire')
                 ? 'Société Régionale de Transport de Kairouan'
                 : 'الشركة الجهوية للنقل بالقيروان'}
@@ -59,8 +59,8 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block bg-secondary-light text-secondary text-xs font-bold px-4 py-2 rounded-full mb-4">{t('about.whoWeAre')}</span>
-              <h2 className="text-3xl font-bold text-dark mb-6">{t('about.heroSubtitle').includes('histoire') ? 'Qui Sommes-Nous?' : 'من نحن؟'}</h2>
+              <span className="inline-block bg-secondary/10 text-secondary text-xs font-bold px-5 py-2 rounded-full mb-4 border border-secondary/20">{t('about.whoWeAre')}</span>
+              <h2 className="text-3xl font-extrabold text-dark mb-6 tracking-tight">{t('about.heroSubtitle').includes('histoire') ? 'Qui Sommes-Nous?' : 'من نحن؟'}</h2>
               <p className="text-gray-600 leading-relaxed mb-4">{t('about.whoWeAreText')}</p>
               <p className="text-gray-600 leading-relaxed">{t('about.historyText')}</p>
             </div>
@@ -94,7 +94,7 @@ export default function About() {
                   className={`flex flex-col md:flex-row items-center gap-4 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                 >
                   <div className="flex-1 text-center md:text-end">
-                    <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 inline-block border border-gray-100">
+                    <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 inline-block border border-gray-100/80 card-glow">
                       <div className="text-secondary font-bold text-xl mb-1">{item.year}</div>
                       <h3 className="text-lg font-bold text-dark mb-2">{item.title}</h3>
                       <p className="text-gray-500 text-sm">{item.desc}</p>
@@ -119,7 +119,7 @@ export default function About() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="text-center p-8 bg-light rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
+                className="text-center p-8 bg-white rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100/80 card-glow"
               >
                 <div className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg`}>
                   <item.icon className="w-8 h-8 text-white" />

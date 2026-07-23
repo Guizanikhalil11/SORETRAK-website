@@ -60,7 +60,7 @@ export default function Contact() {
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{t('contact.title')}</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">{t('contact.title')}</h1>
             <p className="text-xl text-white/80">{t('contact.heroSubtitle')}</p>
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-              <form onSubmit={handleSubmit} className="bg-light rounded-2xl p-8">
+              <form onSubmit={handleSubmit} className="bg-light rounded-2xl p-8 border border-gray-100/80">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-2">{t('contact.form.name')}</label>
@@ -109,7 +109,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="bg-gradient-to-r from-secondary to-secondary-dark text-white px-8 py-3.5 rounded-xl font-bold hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 flex items-center gap-2 disabled:opacity-50 hover:-translate-y-0.5"
+                  className="bg-gradient-to-r from-secondary to-secondary-dark text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 flex items-center gap-2 disabled:opacity-50 hover:-translate-y-0.5 relative overflow-hidden"
                 >
                   {sending ? (
                     <>
@@ -128,7 +128,7 @@ export default function Contact() {
 
             <div className="space-y-4">
               {contactInfo.map((info, index) => (
-                <div key={index} className="bg-light rounded-2xl p-6 flex items-start gap-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
+                <div key={index} className="bg-white rounded-2xl p-6 flex items-start gap-4 hover:shadow-xl transition-all duration-300 border border-gray-100/80 card-glow">
                   <div className={`w-12 h-12 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md`}>
                     <info.icon className="w-6 h-6 text-white" />
                   </div>
@@ -143,7 +143,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="h-96 bg-gray-200 rounded-t-3xl mx-4 overflow-hidden mb-0">
+      <section className="h-96 bg-gray-200 rounded-t-3xl mx-4 overflow-hidden mb-0 shadow-2xl">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52921.24873720587!2d10.08937665!3d35.6781971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13022b41e4781b63%3A0x41b853739296fb9b!2sKairouan%2C%20Tunisia!5e0!3m2!1sen!2sus!4v1234567890"
           width="100%"

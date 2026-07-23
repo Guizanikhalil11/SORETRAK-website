@@ -56,7 +56,7 @@ export default function Home() {
               <Link
                 key={index}
                 to={service.link}
-                className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 hover:-translate-y-2 group hover-lift"
+                className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100/80 hover:-translate-y-2 group hover-lift card-glow"
               >
                 <div className="h-44 overflow-hidden relative">
                   <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -88,7 +88,7 @@ export default function Home() {
               {routes.map((route, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group hover:-translate-y-1"
+                  className="bg-white rounded-2xl p-7 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100/80 group hover:-translate-y-1 card-glow"
                 >
                   <div className="flex items-center justify-between mb-5">
                     <div className="text-center">
@@ -112,7 +112,7 @@ export default function Home() {
                       <Zap className="w-4 h-4 text-secondary" />
                       <span>{route.schedule}</span>
                     </div>
-                    <span className="text-secondary font-bold text-lg">{route.price} <span className="text-sm font-normal text-gray-500">د.ت</span></span>
+                    <span className="text-gradient-secondary font-extrabold text-xl counter-value">{route.price} <span className="text-sm font-normal text-gray-500">د.ت</span></span>
                   </div>
                 </div>
               ))}
@@ -138,7 +138,7 @@ export default function Home() {
               {news.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group hover:-translate-y-1"
+                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100/80 group hover:-translate-y-1 card-glow"
                 >
                   {item.image && (
                     <div className="h-48 overflow-hidden">
@@ -146,7 +146,7 @@ export default function Home() {
                     </div>
                   )}
                   <div className="p-6">
-                    <div className="text-sm text-secondary font-medium mb-2">{new Date(item.createdAt || item.date).toLocaleDateString()}</div>
+                    <div className="inline-flex items-center gap-1.5 text-xs font-bold text-secondary bg-secondary/10 px-3 py-1 rounded-full mb-3">{new Date(item.createdAt || item.date).toLocaleDateString()}</div>
                     <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2 group-hover:text-primary transition-colors">{getTitle(item)}</h3>
                     <p className="text-gray-500 text-sm line-clamp-3">{getContent(item).substring(0, 150)}...</p>
                     <Link
@@ -182,7 +182,7 @@ export default function Home() {
             ]).map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-light rounded-2xl p-8 relative hover:shadow-xl transition-all duration-500 border border-gray-100 group hover:-translate-y-1"
+                className="bg-white rounded-2xl p-8 relative hover:shadow-2xl transition-all duration-500 border border-gray-100/80 group hover:-translate-y-1 card-glow"
               >
                 <Quote className="w-10 h-10 text-secondary/20 absolute top-6 right-6" />
                 <div className="flex items-center gap-1 mb-4">
@@ -237,7 +237,7 @@ export default function Home() {
                 key={index}
                 className="text-center p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 group"
               >
-                <div className="w-16 h-16 bg-light rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300 border border-primary/10">
                   <feature.icon className={`w-8 h-8 ${feature.color}`} />
                 </div>
                 <h3 className="text-lg font-bold text-dark mb-2">{feature.title}</h3>
@@ -251,7 +251,7 @@ export default function Home() {
       <section ref={ctaRef} className="py-24 bg-gradient-to-r from-primary via-primary-dark to-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center opacity-10" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full mb-6 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 bg-white/10 text-white text-sm font-bold px-5 py-2.5 rounded-full mb-6 backdrop-blur-sm border border-white/10">
             <Award className="w-4 h-4 text-secondary" />
             {t('about.heroSubtitle').includes('histoire') ? 'Depuis plus de 30 ans' : 'منذ أكثر من 30 عاماً'}
           </div>
@@ -260,7 +260,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/subscriptions"
-              className="bg-gradient-to-r from-secondary to-secondary-dark text-white px-8 py-3.5 rounded-xl font-bold hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5"
+              className="relative overflow-hidden bg-gradient-to-r from-secondary to-secondary-dark text-white px-8 py-3.5 rounded-xl font-bold hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5"
             >
               {t('home.ctaButton')}
             </Link>

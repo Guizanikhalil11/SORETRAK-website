@@ -1,11 +1,11 @@
 export default function StatCard({ icon: Icon, value, label }) {
   return (
-    <div className="text-center p-5 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/10 transition-all duration-300">
-      <div className="w-11 h-11 bg-secondary/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-        <Icon className="w-5 h-5 text-secondary" />
+    <div className="text-center p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-1 group">
+      <div className="w-14 h-14 bg-gradient-to-br from-secondary/30 to-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 border border-secondary/20">
+        <Icon className="w-6 h-6 text-secondary" />
       </div>
-      <div className="text-2xl font-bold text-white mb-0.5">{value}</div>
-      <div className="text-white/60 text-sm">{label}</div>
+      <div className="text-3xl font-extrabold text-white mb-1 counter-value">{value}</div>
+      <div className="text-white/60 text-sm font-medium">{label}</div>
     </div>
   )
 }

@@ -46,16 +46,16 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slideInLeft">
-              <span className="inline-flex items-center gap-2 bg-secondary/20 text-secondary text-xs font-bold px-4 py-2 rounded-full mb-6 border border-secondary/30">
+              <span className="inline-flex items-center gap-2 bg-secondary/15 text-secondary text-xs font-bold px-5 py-2.5 rounded-full mb-6 border border-secondary/25 backdrop-blur-sm">
                 <img src="/images/tunisia-flag.svg" alt="Tunisia" className="w-5 h-3.5 object-cover rounded-sm" />
                 {t('about.heroSubtitle').includes('histoire')
                   ? 'République Tunisienne - Ministère des Transports'
                   : 'الجمهورية التونسية - وزارة النقل'}
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight tracking-tight">
                 {t('home.heroTitle')}
               </h1>
-              <p className="text-xl text-white/80 mb-8 leading-relaxed">
+              <p className="text-xl text-white/75 mb-10 leading-relaxed max-w-lg">
                 {t('home.heroSubtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -75,8 +75,8 @@ export default function Hero() {
             </div>
 
             <div className="hidden lg:block animate-slideInRight">
-              <form onSubmit={handleSearch} className="glass rounded-2xl shadow-2xl p-6 border border-white/20">
-                <h3 className="text-dark font-bold text-lg mb-4 flex items-center gap-2">
+              <form onSubmit={handleSearch} className="glass-premium rounded-3xl shadow-2xl p-8 border border-white/20">
+                <h3 className="text-dark font-extrabold text-lg mb-5 flex items-center gap-2">
                   <Search className="w-5 h-5 text-secondary" />
                   {t('home.searchButton')}
                 </h3>
@@ -121,7 +121,7 @@ export default function Hero() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:shadow-xl"
+                    className="w-full bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:shadow-xl hover:-translate-y-0.5"
                   >
                     <Search className="w-5 h-5" />
                     {t('home.searchButton')}
@@ -133,7 +133,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-dark via-darker to-dark relative -mt-1">
+      <div className="bg-gradient-to-r from-dark via-darker to-dark relative -mt-1 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, index) => (
