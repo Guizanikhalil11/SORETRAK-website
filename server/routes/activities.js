@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { prisma } = require('../index');
+const { prisma } = require('../prisma');
 const { auth, adminOnly } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {

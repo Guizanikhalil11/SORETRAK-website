@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { prisma } = require('../index');
+const { prisma } = require('../prisma');
 const { auth, adminOnly } = require('../middleware/auth');
 
 router.post('/login', async (req, res) => {

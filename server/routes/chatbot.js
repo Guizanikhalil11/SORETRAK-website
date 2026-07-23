@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { prisma } = require('../index')
+const { prisma } = require('../prisma')
 
 // Cache for DB data (refreshed every 5 min)
 let cachedRoutes = null;
