@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GraduationCap, Bus, Banknote, KeyRound, CheckCircle, Loader2 } from 'lucide-react'
+import { GraduationCap, Bus, Users, KeyRound, CheckCircle, Loader2 } from 'lucide-react'
 import axios from 'axios'
 
 export default function Activities() {
@@ -19,7 +19,7 @@ export default function Activities() {
     '/images/bus-rental.jpg',
   ]
 
-  const iconMap = { school: GraduationCap, directions_bus: Bus, local_shipping: Banknote, event_available: KeyRound }
+  const iconMap = { school: GraduationCap, directions_bus: Bus, local_shipping: Users, event_available: KeyRound }
 
   const defaultActivities = [
     {
@@ -36,7 +36,7 @@ export default function Activities() {
     },
     {
       key: 'currency',
-      icon: Banknote,
+      icon: Users,
       color: 'from-[#1565C0] to-[#0D47A1]',
       features: t('activities.currency.features', { returnObjects: true })
     },

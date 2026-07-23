@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { GraduationCap, Bus, Banknote, KeyRound, Shield, Heart, Globe, CheckCircle, ArrowRight, Star, Zap, Award, Quote } from 'lucide-react'
+import { GraduationCap, Bus, Users, KeyRound, Shield, Heart, Globe, CheckCircle, ArrowRight, Star, Zap, Award, Quote } from 'lucide-react'
 import Hero from '../components/Hero'
 import SectionTitle from '../components/SectionTitle'
 import { useScrollReveal, useStaggerReveal } from '../hooks/useScrollReveal'
@@ -32,7 +32,7 @@ export default function Home() {
   const services = [
     { icon: GraduationCap, title: t('home.services.student.title'), desc: t('home.services.student.description'), color: 'from-primary to-primary-dark', image: '/images/student-transport.jpg', link: '/subscriptions' },
     { icon: Bus, title: t('home.services.passenger.title'), desc: t('home.services.passenger.description'), color: 'from-secondary to-secondary-dark', image: '/images/passenger-transport.jpg', link: '/routes' },
-    { icon: Banknote, title: t('home.services.currency.title'), desc: t('home.services.currency.description'), color: 'from-[#1565C0] to-[#0D47A1]', image: '/images/currency-transport.jpg', link: '/contact' },
+    { icon: Users, title: t('home.services.currency.title'), desc: t('home.services.currency.description'), color: 'from-[#1565C0] to-[#0D47A1]', image: '/images/currency-transport.jpg', link: '/contact' },
     { icon: KeyRound, title: t('home.services.rental.title'), desc: t('home.services.rental.description'), color: 'from-[#6A1B9A] to-[#4A148C]', image: '/images/bus-rental.jpg', link: '/contact' },
   ]
 
