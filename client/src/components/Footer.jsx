@@ -46,7 +46,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-5 text-white">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
-              {['home', 'about', 'activities', 'routes', 'news', 'tenders', 'partners', 'contact'].map((key) => (
+              {['home', 'about', 'activities', 'routes', 'news', 'contact'].map((key) => (
                 <li key={key}>
                   <Link
                     to={`/${key === 'home' ? '' : key}`}
@@ -57,6 +57,18 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link to="/tenders" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className="w-1.5 h-1.5 bg-secondary rounded-full" />
+                  {t('nav.tenders')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/partners" className="text-gray-400 hover:text-secondary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className="w-1.5 h-1.5 bg-secondary rounded-full" />
+                  {t('nav.partners')}
+                </Link>
+              </li>
             </ul>
           </div>
 

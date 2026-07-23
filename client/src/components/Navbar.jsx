@@ -12,8 +12,6 @@ const navLinks = [
     { key: 'commercialTariffs', path: '/commercial-tariffs' },
   ]},
   { key: 'news', path: '/news' },
-  { key: 'tenders', path: '/tenders' },
-  { key: 'partners', path: '/partners' },
   { key: 'faq', path: '/faq' },
   { key: 'contact', path: '/contact' },
 ]
