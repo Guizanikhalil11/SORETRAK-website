@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Menu, X } from 'lucide-react'
@@ -25,6 +25,7 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false)
   const lastScrollY = useRef(0)
   const isRTL = i18n.language === 'ar'
+  const closeTimeout = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,8 +82,15 @@ export default function Navbar() {
                 <div
                   key={link.key}
                   className="relative"
-                  onMouseEnter={() => link.children && setOpenDropdown(link.key)}
-                  onMouseLeave={() => link.children && setOpenDropdown(null)}
+                  onMouseEnter={() => {
+                    if (closeTimeout.current) { clearTimeout(closeTimeout.current); closeTimeout.current = null }
+                    if (link.children) setOpenDropdown(link.key)
+                  }}
+                  onMouseLeave={() => {
+                    if (link.children) {
+                      closeTimeout.current = setTimeout(() => setOpenDropdown(null), 150)
+                    }
+                  }}
                 >
                   <Link
                     to={link.path}
@@ -98,7 +106,7 @@ export default function Navbar() {
                     )}
                   </Link>
                   {link.children && openDropdown === link.key && (
-                    <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-100 py-2 min-w-[200px] z-50 animate-fadeIn">
+                    <div className="absolute top-full left-0 pt-3 bg-white rounded-xl shadow-xl border border-gray-100 py-2 min-w-[200px] z-50 animate-fadeIn">
                       {link.children.map((child) => (
                         <Link
                           key={child.key}
